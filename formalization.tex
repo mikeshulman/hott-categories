@@ -1,9 +1,132 @@
+
 \section{The Formalization}
 \label{sec:formalization}
+% \newcommand{\coq}{\textsf{Coq}}   % this doesn't work properly
+
+Large chunks of the material presented above have been formalized in the proof assistant \textsf{Coq}.
+The version of \textsf{Coq} we used is \textsf{Coq} 8.3pl5, patched according to the instructions given by
+V.\ Voevodsky \footnote{\url{https://github.com/vladimirias/Foundations/tree/master/Coq_patches}}.
+
+Our formalization is based on Voevodsky's \emph{Foundations} library \cite{vv_foundations}.
+
+Repository, all necessary files --- Voevodsky's, ours --- are on arxiv
+
+TODO get arxiv URL by submitting a preliminary version of this paper
+
+Our general design principles largely follow the conventions established by Voevodsky in the library \cite{vv_foundations} with a few departures. 
+The formalization uses only three type constructors: $\Pi$, $\Sigma$, $\textsf{Id}$ and does not use 
+almost any of the syntactic sugar of \textsf{Coq} such as the record types. 
+Following Voevodsky, we used implicit arguments and, quite extensively, coercions. 
+As for the differences, the use of notations, especially with infix symbols (for example, $\textsf{f ;; g}$ for 
+the composition of morphisms of a (pre-)category) plays an important role. We also used the section mechanism of \textsf{Coq} 
+when several hypotheses were common to a series of constructions and lemmas, e.g., 
+when defining an instance of a structure such as an equivalence of precategories.
+
+Since informal type theory, used in the previous section is supposed to match quite closely its formal equivalent, 
+the statements of the formalization are very similar to the corresponding statements of the informal type theory. 
+For example, TODO: an example. Of course, one example cannot speak for the whole formalization, but we believe it is fairly representative.
+
+The major differences occur when we split a large definition in parts as, for example, for the definition of a precategory. We first, define:
+
+TODO: nice coq code for precategory-ob-mor-pair.
+
+Then we complete the data of a precategory by:
+
+TODO: nice coq code for precategory-data-pair.
+
+And finally, we define a precategory:
+
+TODO: nice coq code for is-precategory and precategory.
 
 
+\subsection*{Contents of the Formalization}
 
-%%% Local Variables: 
+In this part of the project we aimed on formalizing the Rezk completion together with its universal property. The formalization consists of 10 files:
+\begin{itemize}
+ \item \texttt{precategories.v} which roughly covers \autoref{sec:cats}.
+ \item \texttt{functors-transformations.v} which roughly covers \autoref{sec:transfors}
+ \item \texttt{sub-precategories.v} where we define the image of a functor whose target is a category. 
+          This is not a separate part of the paper, but it is used (in less generality) in \autoref{thm:rezk-completion}.
+ \item \texttt{equivalences.v} where we cover parts of \autoref{sec:equivalences} needed for \autoref{ct:cat-weq-eq}.
+ \item \texttt{category-hset.v} where we define the precategory of sets and show that it is a category.
+ \item \texttt{yoneda.v} where we cover the main parts of \autoref{ct:yoneda}.
+ \item \texttt{whiskering.v} where we define the whiskering, see \autoref{def:whisker}.
+ \item \texttt{precomp-fully-faithful.v} that covers \autoref{lem:precomp-faithful} and \ref{lem:precomp-full}.
+ \item \texttt{precomp-ess-surj.v} that covers \autoref{ct:cat-weq-eq}.
+ \item \texttt{Rezk-completion.v} that puts the previous files together exhibiting \autoref{thm:rezk-completion}.
+\end{itemize}
+\subsection*{Technical Issues and Statistics}
+
+
+\subsubsection*{Issues}
+Our library has an unsatisfactory aspects due to the design principles outlined above:
+
+Firstly, the packaging of structures, i.e., data types together with operations and properties of these operations,
+in $\Sigma$-types, which basically behave like record types,
+suffers from the deficiencies outlined in \cite{DBLP:journals/mscs/SpittersW11}. Furthermore,
+proof automation using canonical structures \`a la \cite{DBLP:conf/icfp/GonthierZND11} is not
+available since we stick to $\Sigma$-types rather than record types.
+
+For instance, a consequence of our restriction to sigma types implies the necessity of defining another
+categorical composition in addition to the one of morphisms given by the category itself: a composition of
+\emph{iso}morphisms which expresses that isomorphisms are closed under composition.
+Using more sophisticated techniques such as type classes, this fact could be established once and for all and the property of
+a composition of isomorphisms of being an isomorphism could be established automatically by the system whenever needed.
+
+
+\subsubsection*{Deviation in the Formalization from the paper definitions}
+
+The formalization deviates very little from the pen--and--paper definitions given in the previous section.
+One particular place where deviation is beneficial shall be mentioned here:
+in the definition of a left adjoint \ref{TODO:point_to_adjunction}
+the mentioned natural transformations $(\epsilon F)(F\eta)$ and $(G\epsilon)(\eta G)$ are actually not
+composable; indeed, given a functor $F : A \to B$, we have that $F \circ 1_A \not\equiv F$.
+Similarly, $H \circ (G \circ F)\not \equiv (H\circ G)\circ F$. However, \emph{pointwise} these compositions
+\emph{are} convertible, we have $(F \circ Id) (a) \equiv F(a)$ and
+$\big(H \circ (G \circ F)\big)(a)\equiv \big((H\circ G)\circ F\big)(a)$ for any object $a$, and similar for morphisms, but for morphisms
+we do not care here.
+
+TODO : explain why above composition of whiskered natural transformation fails without transport
+
+Thus, in order to make this composition typecheck, we would have to insert coherence equalities
+
+TODO : a better name for coherence equalities
+
+However, if we express the equality of these natural transformations \emph{pointwise} --- which yields an equivalent statement
+in the type--theoretic sense of equivalence ---, we can do without the coherence equalities: we have
+
+TODO : explain what we have, give the types
+
+
+Note that since both statements are propositions and coinhabited, this does not change anything, really, believe me.
+
+
+\subsubsection*{Statistics}
+
+Our library comprises ten files with ca.\ 1200 lines of specification --- definitions and statements of lemmas and theorems ---
+and 2500 lines of proof script altogether.
+
+
+TODO : coqdoc seems broken in that it produces broken index file, which shows lemmas and definitions multiple times
+
+
+%   output from coqwc tool, measures lines of code
+%
+%  spec    proof comments
+%       223      297       42 precategories.v
+%       287      496       75 functors_transformations.v
+%       188      241      107 sub_precategories.v
+%       131      252       30 equivalences.v
+%        51      125       22 category_hset.v
+%        90      147       22 yoneda.v
+%        46       42       15 whiskering.v
+%        56      292       21 precomp_fully_faithful.v
+%       116      814      115 precomp_ess_surj.v
+%        39       39       11 rezk_completion.v
+%      1227     2745      460 total
+
+
+%%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "hottcats"
-%%% End: 
+%%% End:
