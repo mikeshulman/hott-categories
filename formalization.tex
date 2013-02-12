@@ -29,14 +29,44 @@ For example, TODO: an example. Of course, one example cannot speak for the whole
 The major differences occur when we split a large definition in parts as, for example, for the definition of a precategory. We first, define:
 
 TODO: nice coq code for precategory-ob-mor-pair.
+\begin{lstlisting}
+Definition hset_precategory_ob_mor : precategory_ob_mor :=
+  tpair (fun ob : UU => ob -> ob -> hSet) hSet 
+        (fun A B : hSet => hset_fun_space A B).
+\end{lstlisting}
 
 Then we complete the data of a precategory by:
 
 TODO: nice coq code for precategory-data-pair.
-
+\begin{lstlisting}
+Definition hset_precategory_data : precategory_data :=
+ precategory_data_pair 
+  hset_precategory_ob_mor 
+  (fun (A : hSet) (x : A) => x) 
+  (fun (A B C : hSet) (f : A -> B) (g : B -> C) (x : A) => g (f x)).
+\end{lstlisting}
 And finally, we define a precategory:
+\begin{lstlisting}
+Lemma is_precategory_hset_precategory_data :
+  is_precategory hset_precategory_data.
+Proof.
+  repeat split; simpl.
+  intros a b f.
+  apply funextfunax; intros;
+  apply idpath.
+  intros;
+  apply funextfunax; intros;
+  apply idpath.
+Qed.
+
+Definition hset_precategory : precategory := 
+  tpair _ _ is_precategory_hset_precategory_data.
+\end{lstlisting}
+
 
 TODO: nice coq code for is-precategory and precategory.
+
+
 
 
 \subsection*{Contents of the Formalization}
