@@ -534,7 +534,7 @@ We now define all the usual ways to compose functors and natural transformations
   It is easy to check the axioms.
 \end{defn}
 
-\begin{defn}
+\begin{defn}\label{def:whisker}
   For functors $F:A\to B$ and $G,H:B\to C$ and a natural transformation $\gamma:G\to H$, the composite $(\gamma F):GF\to HF$ is given by
   \begin{itemize}
   \item For each $a:A$, the component $\gamma_{Fa}$.
@@ -1080,7 +1080,7 @@ It relies on the fact that ``categories see weak equivalences as equivalences''.
 To prove this, we begin with a couple of lemmas which are completely standard category theory, phrased carefully so as to make sure we are using the eliminator for $\truncf{-1}$ correctly.
 One would have to be similarly careful in classical category theory if one wanted to avoid the axiom of choice: any time we want to define a function, we need to characterize its values uniquely somehow.
 
-\begin{lem}
+\begin{lem}\label{lem:precomp-faithful}
   If $A,B,C$ are precategories and $H:A\to B$ is an essentially surjective functor, then $(-\circ H):C^B \to C^A$ is faithful.
 \end{lem}
 \begin{proof}
@@ -1094,7 +1094,7 @@ One would have to be similarly careful in classical category theory if one wante
   \]
 \end{proof}
 
-\begin{lem}
+\begin{lem}\label{lem:precomp-full}
   If $A,B,C$ are precategories and $H:A\to B$ is essentially surjective and full, then $(-\circ H):C^B \to C^A$ is fully faithful.
 \end{lem}
 \begin{proof}
@@ -1234,7 +1234,7 @@ In univalent foundations, however, if $C$ is a category, then isomorphism is equ
 Therefore, if a precategory $A$ admits a weak equivalence functor $A\to \hat{A}$, then that is its ``reflection'' into categories: any functor from $A$ into a category will factor essentially uniquely through $\widehat{A}$.
 We now construct such a weak equivalence.
 
-\begin{thm}
+\begin{thm}\label{thm:rezk-completion}
   For any precategory $A$, there is a category $\widehat A$ and a weak equivalence $A\to\widehat{A}$.
 \end{thm}
 \begin{proof}
