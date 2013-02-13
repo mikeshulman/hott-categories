@@ -4,134 +4,143 @@
 % \newcommand{\coq}{\textsf{Coq}}   % this doesn't work properly
 
 Large chunks of the material presented above have been formalized in the proof assistant \textsf{Coq}.
-The version of \textsf{Coq} we used is \textsf{Coq} 8.3pl5, patched according to the instructions given by
-V.\ Voevodsky \footnote{\url{https://github.com/vladimirias/Foundations/tree/master/Coq_patches}}.
+The version of \textsf{Coq} used is \textsf{Coq} 8.3pl5, patched according to the instructions given by
+V.\ Voevodsky\footnote{\url{https://github.com/vladimirias/Foundations/tree/master/Coq_patches}}.
 
-Our formalization is based on Voevodsky's \emph{Foundations} library \cite{vv_foundations}.
+Our formalization is based on Voevodsky's \emph{Foundations} library \cite{vv_foundations},
+and is available online\footnote{\url{https://github.com/benediktahrens/rezk_completion}}.
 
-Repository, all necessary files --- Voevodsky's, ours --- are on arxiv
 
-TODO get arxiv URL by submitting a preliminary version of this paper
-
-Our general design principles largely follow the conventions established by Voevodsky in the library \cite{vv_foundations} with a few departures. 
-The formalization uses only three type constructors: $\Pi$, $\Sigma$, $\textsf{Id}$ and does not use 
+\subsection*{Design principles}
+Our general design principles largely follow the conventions established by Voevodsky in the library \cite{vv_foundations} 
+with a few departures. 
+Both use only three type constructors: $\Pi$, $\Sigma$, $\textsf{Id}$ and do not use 
 almost any of the syntactic sugar of \textsf{Coq} such as the record types. 
-Following Voevodsky, we used implicit arguments and, quite extensively, coercions. 
-As for the differences, the use of notations, especially with infix symbols (for example, $\textsf{f ;; g}$ for 
-the composition of morphisms of a (pre-)category) plays an important role. We also used the section mechanism of \textsf{Coq} 
-when several hypotheses were common to a series of constructions and lemmas, e.g., 
-when defining an instance of a structure such as an equivalence of precategories.
+Following Voevodsky, we use implicit arguments and, quite extensively, coercions. 
 
-Since informal type theory, used in the previous section is supposed to match quite closely its formal equivalent, 
+We restrict ourselves to these basic type constructors since they have a well-understood
+semantics in various homotopy-theoretic models. Implicit arguments and coercions are 
+crucial to manage structures of high complexity. Furthermore, they reflect
+ familiar mathematical practice.
+
+
+As for the differences, the use of notations, especially with infix symbols (for example, \lstinline!f ;; g! for 
+the composition of morphisms of a precategory) plays an important role in our formalization. 
+We also use the section mechanism of \textsf{Coq} 
+when several hypotheses are common to a series of constructions and lemmas, e.g., 
+when constructing particular examples of complex structures.
+
+\subsection*{Reading the code}
+
+Since informal type theory, used in the previous sections, is supposed to match its formal equivalent quite closely, 
 the statements of the formalization are very similar to the corresponding statements of the informal type theory. 
-For example, TODO: an example. Of course, one example cannot speak for the whole formalization, but we believe it is fairly representative.
-
-The major differences occur when we split a large definition in parts as, for example, for the definition of a precategory. We first, define:
-
-TODO: nice coq code for precategory-ob-mor-pair.
+For example, our formal statement correponding to \autoref{def:whisker} looks as follows:
 \begin{lstlisting}
-Definition hset_precategory_ob_mor : precategory_ob_mor :=
-  tpair (fun ob : UU => ob -> ob -> hSet) hSet 
-        (fun A B : hSet => hset_fun_space A B).
-\end{lstlisting}
-
-Then we complete the data of a precategory by:
-
-TODO: nice coq code for precategory-data-pair.
-\begin{lstlisting}
-Definition hset_precategory_data : precategory_data :=
- precategory_data_pair 
-  hset_precategory_ob_mor 
-  (fun (A : hSet) (x : A) => x) 
-  (fun (A B C : hSet) (f : A -> B) (g : B -> C) (x : A) => g (f x)).
-\end{lstlisting}
-And finally, we define a precategory:
-\begin{lstlisting}
-Lemma is_precategory_hset_precategory_data :
-  is_precategory hset_precategory_data.
-Proof.
-  repeat split; simpl.
-  intros a b f.
-  apply funextfunax; intros;
-  apply idpath.
-  intros;
-  apply funextfunax; intros;
-  apply idpath.
-Qed.
-
-Definition hset_precategory : precategory := 
-  tpair _ _ is_precategory_hset_precategory_data.
+Lemma is_nat_trans_pre_whisker (A B C: precategory) (F: functor A B)
+   (G H: functor B C) (gamma: nat_trans G H) :
+  is_nat_trans (G o F) (H o F) (fun a: ob A => gamma (F a)).
 \end{lstlisting}
 
 
-TODO: nice coq code for is-precategory and precategory.
+The major differences occur when we split a large definition in parts as, for example, for the definition of a precategory. 
+We first, define:
+
+
+\begin{lstlisting}
+Definition precategory_ob_mor := total2 (
+  fun ob : UU => ob -> ob -> hSet).
+\end{lstlisting}
+%
+Given an element \lstinline!C! of the above type, we write \lstinline!ob C!
+for its first component and \lstinline!a --> b! for the value of the second 
+component on \lstinline!a b : ob C!.
+
+We complete the data of a precategory by:
+
+\begin{lstlisting}
+Definition precategory_data := total2 (
+   fun C : precategory_ob_mor =>
+     dirprod (forall c : ob C, c --> c)
+             (forall a b c : ob C, a --> b -> b --> c -> a --> c)).
+\end{lstlisting}
+In the following we write \lstinline!identity c! for the identity morphism
+on an object \lstinline!c! and \lstinline!f ;; g! for the composite of 
+morphisms \lstinline!f : a --> b! and \lstinline!g : b --> c!.
+
+We define a predicate expressing that this data constitutes a precategory:
+\begin{lstlisting}
+Definition is_precategory (C : precategory_data) :=
+   dirprod (dirprod (forall (a b : ob C) (f : a --> b),
+                         identity a ;; f == f)
+                     (forall (a b : ob C) (f : a --> b),
+                         f ;; identity b == f))
+            (forall (a b c d : ob C)
+                    (f : a --> b)(g : b --> c) (h : c --> d),
+                     f ;; (g ;; h) == (f ;; g) ;; h).
+\end{lstlisting}
+As the last step, we say that a precategory is given by the data of a precategory
+satisfying the necessary axioms:
+\begin{lstlisting}
+Definition precategory := total2 is_precategory.
+\end{lstlisting}
 
 
 
 
-\subsection*{Contents of the Formalization}
+
+
+
+\subsection*{Contents of the formalization}
 
 In this part of the project we aimed on formalizing the Rezk completion together with its universal property. The formalization consists of 10 files:
 \begin{itemize}
  \item \texttt{precategories.v} which roughly covers \autoref{sec:cats}.
- \item \texttt{functors-transformations.v} which roughly covers \autoref{sec:transfors}
- \item \texttt{sub-precategories.v} where we define the image of a functor whose target is a category. 
+ \item \texttt{functors\textunderscore transformations.v} which roughly covers \autoref{sec:transfors}.
+ \item \texttt{sub\textunderscore precategories.v} where we define sub-precategories and
+                 the image factorization of a functor. 
           This is not a separate part of the paper, but it is used (in less generality) in \autoref{thm:rezk-completion}.
  \item \texttt{equivalences.v} where we cover parts of \autoref{sec:equivalences} needed for \autoref{ct:cat-weq-eq}.
- \item \texttt{category-hset.v} where we define the precategory of sets and show that it is a category.
+ \item \texttt{category\textunderscore hset.v} where we define the precategory of sets and show that it is a category.
  \item \texttt{yoneda.v} where we cover the main parts of \autoref{ct:yoneda}.
  \item \texttt{whiskering.v} where we define the whiskering, see \autoref{def:whisker}.
- \item \texttt{precomp-fully-faithful.v} that covers \autoref{lem:precomp-faithful} and \ref{lem:precomp-full}.
- \item \texttt{precomp-ess-surj.v} that covers \autoref{ct:cat-weq-eq}.
- \item \texttt{Rezk-completion.v} that puts the previous files together exhibiting \autoref{thm:rezk-completion}.
+ \item \texttt{precomp\textunderscore fully\textunderscore faithful.v} that covers \autoref{lem:precomp-faithful} and \ref{lem:precomp-full}.
+ \item \texttt{precomp\textunderscore ess\textunderscore surj.v} that covers \autoref{ct:cat-weq-eq}.
+ \item \texttt{Rezk\textunderscore completion.v} that puts the previous files together exhibiting \autoref{thm:rezk-completion}.
 \end{itemize}
-\subsection*{Technical Issues and Statistics}
 
 
-\subsubsection*{Issues}
-Our library has an unsatisfactory aspects due to the design principles outlined above:
-
-Firstly, the packaging of structures, i.e., data types together with operations and properties of these operations,
-in $\Sigma$-types, which basically behave like record types,
-suffers from the deficiencies outlined in \cite{DBLP:journals/mscs/SpittersW11}. Furthermore,
-proof automation using canonical structures \`a la \cite{DBLP:conf/icfp/GonthierZND11} is not
-available since we stick to $\Sigma$-types rather than record types.
-
-For instance, a consequence of our restriction to sigma types implies the necessity of defining another
-categorical composition in addition to the one of morphisms given by the category itself: a composition of
-\emph{iso}morphisms which expresses that isomorphisms are closed under composition.
-Using more sophisticated techniques such as type classes, this fact could be established once and for all and the property of
-a composition of isomorphisms of being an isomorphism could be established automatically by the system whenever needed.
 
 
-\subsubsection*{Deviation in the Formalization from the paper definitions}
-
-The formalization deviates very little from the pen--and--paper definitions given in the previous section.
-One particular place where deviation is beneficial shall be mentioned here:
-in the definition of a left adjoint \ref{TODO:point_to_adjunction}
-the mentioned natural transformations $(\epsilon F)(F\eta)$ and $(G\epsilon)(\eta G)$ are actually not
-composable; indeed, given a functor $F : A \to B$, we have that $F \circ 1_A \not\equiv F$.
-Similarly, $H \circ (G \circ F)\not \equiv (H\circ G)\circ F$. However, \emph{pointwise} these compositions
-\emph{are} convertible, we have $(F \circ Id) (a) \equiv F(a)$ and
-$\big(H \circ (G \circ F)\big)(a)\equiv \big((H\circ G)\circ F\big)(a)$ for any object $a$, and similar for morphisms, but for morphisms
-we do not care here.
-
-TODO : explain why above composition of whiskered natural transformation fails without transport
-
-Thus, in order to make this composition typecheck, we would have to insert coherence equalities
-
-TODO : a better name for coherence equalities
-
-However, if we express the equality of these natural transformations \emph{pointwise} --- which yields an equivalent statement
-in the type--theoretic sense of equivalence ---, we can do without the coherence equalities: we have
-
-TODO : explain what we have, give the types
+%\subsubsection*{Issues}
+%Our library has an unsatisfactory aspect due to the design principles outlined above.
+%Packaging of structures---i.e., data types together with operations and properties of these operations---in 
+% $\Sigma$-types often requires proving similar statements several times. For example, we have to define the composition of
+% isomorphisms on top of---and in terms of---already existing composition of morphisms in a precategory and then prove 
+% some of its properties that have already been proven---or even given as axioms---for their underlying morphisms.
+% Using techniques such as type classes, facts of this kind could be established once and for all and various properties 
+% of isomorphisms (such as stability under composition) could be inferred automatically by the system whenever needed.
 
 
-Note that since both statements are propositions and coinhabited, this does not change anything, really, believe me.
+\subsection*{Formalization vs informal definitions}
+
+The formalization deviates very little from the informal definitions given in the previous sections.
+We shall mention here the only example of such a deviation, resulting in a slicker definition. 
+In \autoref{def:adjoint} the natural transformations $(\epsilon F)$ and $(F\eta)$ (similarly, 
+$(G\epsilon)$ and $(\eta G)$) are actually not
+composable! We have $\epsilon F : (FG)F \to 1_{B}F$ and $F\eta : F1_A \to F(GF)$. 
+However, $(FG)F$ and $F(GF)$ are not convertible in our system,
+which is necessary for the composition to typecheck. So in order to state the equality in question
+we would have to insert extra coherence data.
+
+We overcome this issue by rephrasing the axiom: instead of requiring an equality of natural 
+transformations, we require it to hold pointwise. 
+These statements are logically and type-theoretically equivalent, but for the latter we have the
+desired convertibility. 
+Indeed, for any $a : A$, we have $\big(F(GF)\big)(a)$ is convertible to $\big((FG)F\big)(a)$.
 
 
-\subsubsection*{Statistics}
+
+\subsection*{Statistics}
 
 Our library comprises ten files with ca.\ 1200 lines of specification --- definitions and statements of lemmas and theorems ---
 and 2500 lines of proof script altogether.
