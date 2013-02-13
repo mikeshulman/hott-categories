@@ -16,19 +16,97 @@ In this section we will describe the higher-categorical semantics of our type-th
 The first higher-categorical model of type theory was the groupoid model of~\cite{hs:gpd-typethy}.
 In this model:
 \begin{itemize}
-\item A type $A$ (or more generally a context) is represented by a groupoid $\m A$.
-\item A dependent type $\Gamma\vdash A$ is represented by a functor $\m A :\m \Gamma \to \mathrm{Gpd}$, where $\mathrm{Gpd}$ is the groupoid of (small) groupoids and isomorphisms between them.
-\item Given this, the context extension $\Gamma,(x:A)$ is the ``Grothendieck construction'' of the functor $\m A$.
+\item A type $A$ (or more generally a context) is represented by a small groupoid $\m A$.
+\item A dependent type $\Gamma\vdash A$ is represented by a functor $\m A :\m \Gamma \to \mathrm{Gpd}$, where $\mathrm{Gpd}$ is the (large) groupoid of small groupoids and isomorphisms between them.
+\item Given this, the context extension $\Gamma,(x:A)$ is represented by the ``Grothendieck construction'' of the functor $\m A$.
   Its objects are pairs $(x,y)$ where $x\in\m\Gamma$ and $y\in \m A(x)$, and its morphisms $(x,y)\to(x',y')$ are pairs $(f,g)$ where $f:x\to x'$ and $g:\m A(f)(y) \to y'$.
   The forgetful functor from this groupoid to $\m\Gamma$ is a split fibration, and every split fibration arises up to isomorphism in this way.
-\item A term $\Gamma \vdash (t:A)$ in a dependent type is represented by a section of the Grothendieck construction, assigning to each $x\in\m\Gamma$ an object $\m t(x)\in \m A(x)$, and to each $f:x\to x'$ a morphism $\m t(f):\m A(f)(y) \to y'$ in a functorial way.
-\item The identity type $\Gm,(x:A),(y:A)\vdash (x=y)$ is represented by the hom-functor $\hom_{\m A}: \m A \times \m A \to \mathrm{Gpd}$.
+  Thus, categorically speaking, we may also identify dependent types with split fibrations.
+\item A term $\Gamma \vdash (t:A)$ in a dependent type is represented by a section of the corresponding split fibration, assigning to each $x\in\m\Gamma$ an object $\m t(x)\in \m A(x)$, and to each $f:x\to x'$ a morphism $\m t(f):\m A(f)(y) \to y'$ in a functorial way.
+\item The identity type $\Gamma,(x:A),(y:A)\vdash (x=y)$ is represented by the hom-functor $\hom_{\m A}: \m {\Gamma,A} \times_{\m\Gamma} \m{\Gamma,A} \to \mathrm{Gpd}$.
+  The corresponding split fibration is the iso-comma category
+  \begin{equation*}
+    \vcenter{\xymatrix{
+        \m{\Gamma,A,A,\mathsf{Id}_A}\ar[r]\ar[d] \ar@{}[dr]|{\cong} &
+        \m{\Gamma,A}\ar[d]\\
+        \m{\Gamma,A}\ar[r] &
+        \m\Gamma
+      }}
+  \end{equation*}
 \end{itemize}
+We leave it to the reader to verify that:
+\begin{itemize}
+\item For $f,g:A\to B$, to give a term $(x:A),(y:A)\vdash (f(x)=g(y))$ means to give a natural isomorphism between the corresponding functors.
+\item A groupoid is contractible, in the type-theoretic sense, if and only if it is equivalent to the terminal groupoid, i.e.\ it is nonempty and every two objects are uniquely isomorphic.
+\item A groupoid is a set, in the type-theoretic sense, if and only if it is equivalent to a discrete groupoid, i.e.\ any two objects are isomorphic in at most one way.
+  We call such groupoids \emph{essential sets}.
+\end{itemize}
+It is shown in~\cite{hs:gpd-typethy} that the groupoid $\mathsf{Gpd}_\kappa$ of groupoids smaller in cardinality than some inaccessible cardinal $\kappa$ (or more precisely, some small groupoid equivalent to this) supplies a type-theoretic universe in this model.
+This universe is \emph{not} univalent, but its sub-universe $\mathsf{ESet}_\kappa$ of essential sets smaller than $\kappa$ \emph{is} univalent.
 
+Thus, the theory of this paper can be interpreted in the groupoid model.
+To avoid confusion, in this section we will refer to the type-theoretic notions as \emph{precategories} and \emph{saturated precategories}, reserving the word ``category'' for the ordinary notion of category.
+
+A precategory in the groupoid model consists of a groupoid $A_0$ and a functor $\hom_A:A_0 \times A_0 \to \mathrm{ESet}$, together with suitable composition and identity operations.
+Now the Grothendieck construction of $\hom_A$ yields a split fibration $A_1 \to A_0\times A_0$ with essential-set fibers, and the composition and identity operations become functors $m:A_1 \times_{A_0} A_1 \to A_1$ and $i:A_0 \to A_1$.
+The associativity and unitality axioms translate into natural isomorphisms
+\begin{equation*}
+  \vcenter{\xymatrix{
+      A_1 \times_{A_0}  A_1 \times_{A_0} A_1 \ar[r]^-{m\times 1}\ar[d]_{1\times m}
+      \ar@{}[dr]|\cong &
+      A_1 \times_{A_0}  A_1\ar[d]_m\\
+      A_1 \times_{A_0}  A_1\ar[r]_-m &
+      A_1
+    }}
+  \qquad\text{and}\qquad
+  \vcenter{\xymatrix{
+      A_0 \ar[r]^-{i} \ar@{=}[dr] \ar@{}[drr]|(.3){\cong} &
+      A_1 \ar[d]^m &
+      A_0 \ar[l]_-{i} \ar@{=}[dl] \ar@{}[dll]|(.3){\cong}\\
+      & A_0. &
+    }}
+\end{equation*}
+These isomorphisms automatically satisfy the usual coherence axioms, because the fibers of $A_1 \to A_0\times A_0$ are essential sets.
+Thus, what we have is precisely a \emph{pseudo double category}~\cite{gp:double-limits}---a weak internal category in categories---with the following additional properties:
+\begin{enumerate}
+\item The category $A_0$ is a groupoid.\label{item:dc1}
+\item The (source, target) functor $A_1 \to A_0\times A_0$ is a fibration.\label{item:dc2}
+\item The fibers of $A_1 \to A_0\times A_0$ are essential sets.\label{item:dc3}
+\end{enumerate}
+
+Property~\ref{item:dc2} means exactly that this pseudo double category is a \emph{framed bicategory} in the sense of~\cite{shulman:frbi}.
+By Appendix C of \textit{ibid.}, to give such a thing is equivalent to giving the category $A_0$, a bicategory $\mathcal{H}A$ with the same objects as $A_0$, and a pseudofunctor $A_0 \to \mathcal{H}A$, which is the identity on objects and such that every morphism in $A_0$ is sent to a left adjoint in $\mathcal{H}A$.
+The morphisms of $\mathcal{H}A$ are, of course, the objects of $A_1$, while its 2-morphisms are the morphisms in the fibers of $A_1 \to A_0\times A_0$ (and thus, by~\ref{item:dc3} above, the hom-categories of $\mathcal{H}A$ are essential sets).
+
+The functor $A_0 \to \mathcal{H}A$ acts on a morphism $f:x\to y$ in $A_0$ by lifting the morphism $(1,f):(x,x)\to (x,y)$ in $A_0\times A_0$ with respect to the fibration $A_1 \to A_0\times A_0$, starting at $i(x)$ in the fiber over $(x,x)$.
+(In our case, since every morphism in $A_0$ is invertible, it remains so in $\mathcal{H}A$, and thus is automatically a left adjoint.)
+Note that with lifting in fibrations of groupoids identified with transport in the type theory, this is equivalent to the operation \idtoiso.
+
+In conclusion, a precategory in the groupoid model can equivalently be identified with the data:
+\begin{enumerate}
+\item A groupoid $A_0$,
+\item A bicategory $\mathcal{H}A$ with the same objects as $A_0$, whose hom-categories are essential sets, and
+\item A pseudofunctor $A_0 \to \mathcal{H}A$ which is the identity on objects.
+\end{enumerate}
+Of course, up to equivalence, a bicategory whose hom-categories are essential sets is just an ordinary category, which may be obtained by passing to isomorphism classes of objects in its hom-categories; let us call this category $\bar A$.
+Thus, a precategory in the groupoid model is essentially just an identity-on-objects functor $A_0 \to \bar A$ whose domain is a groupoid.
+
+Finally, the isomorphisms in such a precategory, as defined in \S\ref{sec:cats}, are easily seen to be precisely the equivalences in the bicategory $\mathcal{H}A$, i.e.\ the isomorphisms in the ordinary category $\bar A$.
+Thus, to say that this precategory is saturated is to say that for every pair of objects $x,y$, the function
+\[ \hom_{A_0}(x,y) \to \mathrm{iso}_{\bar A}(x,y) \]
+is a bijection.
+In particular, to give a saturated precategory in the groupoid model is equivalent to giving a category in the ordinary sense, $\bar A$.
+The groupoid $A_0$ is then canonically identified with the \emph{core} (i.e.\ maximal subgroupoid) of this category $\bar A$.
+This provides some semantic justification for the definition of saturated category: it is necessary in order to recover the usual notion of ``category'' in the groupoid model.
+
+Of course, a \emph{strict category} as in \S\ref{sec:strict-categories}, in the groupoid model, corresponds to a precategory as above in which $A_0$ is an essential set.
+Unlike the case of a saturated precategory, these data are not obviously determined by the category $\bar A$.
+However\dots
 
 
 \subsection{Simplicial sets}
 \label{sec:simplicial-sets}
+
 
 \subsection{Stacks}
 \label{sec:stacks}
