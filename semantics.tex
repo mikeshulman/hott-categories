@@ -1,5 +1,37 @@
-\section{Homotopical semantics}
+\section{Categorical semantics}
 \label{sec:semantics}
+
+While type theory can fruitfully be regarded as a foundational system for mathematics in its own right, part of its power is that it can also be interpreted internally in many different categories, such as toposes.
+Thus, a proof performed in type theory is valid internally in any such category.
+This can greatly simplify some proofs, enabling us to use a familiar language of types, elements, and equality, rather than having to manually translate them into objects, arrows, and commutative diagrams.
+In essence, the general machine of categorical semantics functions like a ``compiler'' which automatically translates the former language into the latter.
+
+For homotopy type theory, the relevant categorical semantics takes place in \emph{higher} categories.
+The general form of this semantics is not fully worked out, but a good amount is known, especially in the 1-truncated situation with which we have been mostly concerned in this paper.
+In this section we will describe the higher-categorical semantics of our type-theoretic notions of precategory and category.
+
+\subsection{Groupoids}
+\label{sec:groupoids}
+
+The first higher-categorical model of type theory was the groupoid model of~\cite{hs:gpd-typethy}.
+In this model:
+\begin{itemize}
+\item A type $A$ (or more generally a context) is represented by a groupoid $\m A$.
+\item A dependent type $\Gamma\vdash A$ is represented by a functor $\m A :\m \Gamma \to \mathrm{Gpd}$, where $\mathrm{Gpd}$ is the groupoid of (small) groupoids and isomorphisms between them.
+\item Given this, the context extension $\Gamma,(x:A)$ is the ``Grothendieck construction'' of the functor $\m A$.
+  Its objects are pairs $(x,y)$ where $x\in\m\Gamma$ and $y\in \m A(x)$, and its morphisms $(x,y)\to(x',y')$ are pairs $(f,g)$ where $f:x\to x'$ and $g:\m A(f)(y) \to y'$.
+  The forgetful functor from this groupoid to $\m\Gamma$ is a split fibration, and every split fibration arises up to isomorphism in this way.
+\item A term $\Gamma \vdash (t:A)$ in a dependent type is represented by a section of the Grothendieck construction, assigning to each $x\in\m\Gamma$ an object $\m t(x)\in \m A(x)$, and to each $f:x\to x'$ a morphism $\m t(f):\m A(f)(y) \to y'$ in a functorial way.
+\item The identity type $\Gm,(x:A),(y:A)\vdash (x=y)$ is represented by the hom-functor $\hom_{\m A}: \m A \times \m A \to \mathrm{Gpd}$.
+\end{itemize}
+
+
+
+\subsection{Simplicial sets}
+\label{sec:simplicial-sets}
+
+\subsection{Stacks}
+\label{sec:stacks}
 
 
 
