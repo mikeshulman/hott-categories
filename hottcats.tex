@@ -230,15 +230,49 @@
 \begin{document}
 \maketitle
 
-In this paper we will develop some basic category theory.
-Although homotopy type theory is well-adapted for \emph{higher} category theory, here we will restrict ourselves to 1-categories.
-We will see that even in this case, the theory has a slightly different flavor from the classical set-based one (and this same difference carries over to the higher-categorical situation).
+\section{Introduction}
+\label{sec:introduction}
 
-We assume the reader has some basic familiarity with classical category theory.
+Of the branches of mathematics, category theory is one which fits the least comfortably into existing ``foundations of mathematics''.
+This is true both at an informal level, and when trying to be completely formal using a computer proof assistant.
+One problem is that category theory would like to use constructions such as ``the category of all sets'', which naively conceived, run afoul of Russellian paradoxes and have to be reinterpreted using universe levels.
+Another is that most of category theory is invariant under weaker notions of ``sameness'' than equality, such as isomorphism in a category or equivalence of categories, in a way which traditional foundations (such as set theory) fail to capture.
+\marginpar{Are there other problems specific to formalization?}
 
-We will be universe polymorphic and typically ambiguous.
-That is, when we write \type it denotes some universe of types, but perhaps a different one at different times, and everything we say will remain true for any consistent choice of universe levels.
-This matches the ordinary practice of working category theorists.
+Our aim in this paper is to show that these problems can be ameliorated using the new \emph{univalent foundations} of mathematics, a.k.a.\ \emph{homotopy type theory}.
+Univalent foundations is \dots [a brief explanation].
+
+The univalence axiom identifies \emph{equivalence} of types with \emph{identity} of types.
+In particular, this implies that anything we can say about sets is automatically invariant under isomorphism, because isomorphism is identified with identity.
+In other words, under the univalence axiom, the category of sets \emph{automatically} behaves ``categorically'', in that its objects cannot be distinguished more finely than up to (unique) isomorphism.
+Our goal in this paper is to extend this behavior to other categories, which requires a more careful analysis of the definition of ``category''.
+
+If we ignore size issues, then in set-based mathematics, a category consists of a \emph{set} of objects and, for each pair $x,y$ of objects, a \emph{set} $\hom(x,y)$ of morphisms.
+Under univalent foundations, a ``naive'' definition of category would simply mimic this with a \emph{type} of objects and \emph{types} of morphisms.
+However, if we allowed these types to contain arbitrary higher homotopy, then we ought to impose higher coherence conditions on the associativity and unitality axioms, leading to some notion of $(\infty,1)$-category.
+Eventually this should be done, but at present our goal is more modest.
+We restrict ourselves to 1-categories, and therefore we restrict the hom-types $\hom(x,y)$ to be \emph{sets} in the sense of UF, i.e.\ types satisfying UIP.
+
+More interesting is whether the type of objects should have any higher homotopy.
+If we require it also to be a set, then we end up with a definition that behaves more like the traditional set-theoretic one.
+Following Toby Bartels, we call this notion a \emph{strict category}.
+However, a (usually) better option is to require it to satisfy a generalized version of the univalence axiom, identifying the \emph{identity type} $(x=_{\mathsf{Obj}} y)$ between two objects with the type $\mathsf{iso}(x,y)$ of \emph{isomorphisms} from $x$ to $y$.
+(In particular, this implies that each type $(x=_{\mathsf{Obj}} y)$ is a set, and that therefore the type of objects is a \emph{1-type}, containing no higher homotopy above dimension 1.)
+We consider this to be the ``correct'' definition of \emph{category} in univalent foundations; for emphasis we may call it a \emph{saturated} or \emph{univalent} category.
+
+\dots [say something about saturation / Rezk completion] \dots
+
+\dots [say something about universe polymorphism / typical ambiguity] \dots
+
+In \S\S\ref{sec:cats}--\ref{sec:yoneda} we develop the basic theory of such categories informally: functors, natural transformations, adjunctions, equivalences, and the Yoneda lemma.
+Then in \S\ref{sec:rezk} we construct the \emph{Rezk completion}, which makes any precategory into a category in a universal way.
+
+\dots [something about formalization] \dots
+
+Finally, in \S\ref{sec:semantics} we discuss semantics\dots [something about equipments, CSS, stacks]\dots
+
+\dots [conclusion] \dots
+\marginpar{Where should we acknowledge Vladimir?}
 
 
 \section{Categories and precategories}
