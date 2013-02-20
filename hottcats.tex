@@ -240,7 +240,15 @@ Another is that most of category theory is invariant under weaker notions of ``s
 \marginpar{Are there other problems specific to formalization?}
 
 Our aim in this paper is to show that these problems can be ameliorated using the new \emph{univalent foundations} of mathematics, a.k.a.\ \emph{homotopy type theory}.
-Univalent foundations is \dots [a brief explanation].
+Univalent foundations is a new approach to foundations of mathematics,
+proposed by V. Voevodsky \cite{vv_uf}, building on the existing development
+of dependent type theory [reference], a logical system feasible for
+(large-scale) formalization of mathematics [references]. The distinctive
+feature of the Univalent Foundations is its treatment of equality inspired
+by homotopy--theoretic semantics [references]. Voevodsky extended the
+dependent type theory by an additional axiom, called the \emph{Univalence
+Axiom}, suggested by the interpretation of the theory in the category of
+simplicial sets [reference].
 
 The univalence axiom identifies \emph{equivalence} of types with \emph{identity} of types.
 In particular, this implies that anything we can say about sets is automatically invariant under isomorphism, because isomorphism is identified with identity.
@@ -260,20 +268,41 @@ However, a (usually) better option is to require it to satisfy a generalized ver
 (In particular, this implies that each type $(x=_{\mathsf{Obj}} y)$ is a set, and that therefore the type of objects is a \emph{1-type}, containing no higher homotopy above dimension 1.)
 We consider this to be the ``correct'' definition of \emph{category} in univalent foundations; for emphasis we may call it a \emph{saturated} or \emph{univalent} category.
 
-\dots [say something about saturation / Rezk completion] \dots
+The categories we often encounter in practice are not saturated (such as the category on $n$-types).
+As we will see in the next sections, they behave much worse than the saturated ones.
+This is why we call them \emph{precategories} to emphasize that the theory should rather be developed for saturated categories.
+In fact, we can see that with many respects the set-theoretic category theory is reflected by saturated categories, not precategories.
+And so we will drop the adjective ``saturated'' and refer to them as simply ``categories''
 
-\dots [say something about universe polymorphism / typical ambiguity] \dots
+There is an obvious inclusion, i.e. a map with fibers being propositions, of (univalent) categories into precategories.
+One of the main goals of this paper is to show that this inclusion has a left adjoint (in the appropriate bicategorical sense).
+That is, given any precategory $A$, we construct a (univalent) category $\hat{A}$ together with a fully faithful and essentially surjective functor
+(the unit of the adjunction) $A \to \hat{A}$.
+
+Our construction is a type-theoretic analog of the familiar homotopy-theoretic construction given by Rezk \cite[Sec.~14]{rezk01css} for Segal spaces.
+
+We consider types in Univalent Foundations to be stratified in a
+linearly ordered hierarchy of \emph{universes}.
+Throughout the paper we avoid mentioning universes explicitly,
+appealing instead to \emph{typical ambiguity}:
+type variables live in \emph{some} universe, and universes 
+are quantified over implicitly.
+All the constructions of this paper can be carried out in \emph{one}
+universe, with one exception: the Yoneda embedding rises the
+universe level by one, since the category of h-sets of universe, say, $n$ lives in universe $n+1$.
 
 In \S\S\ref{sec:cats}--\ref{sec:yoneda} we develop the basic theory of such categories informally: functors, natural transformations, adjunctions, equivalences, and the Yoneda lemma.
 Then in \S\ref{sec:rezk} we construct the \emph{Rezk completion}, which makes any precategory into a category in a universal way.
 
-\dots [something about formalization] \dots
+Large parts of this development have been formally verified in the proof assistant \textsf{Coq}, building on Voevodsky's \emph{Foundations} library \cite{vv_foundations}.
+In particular, the formalization includes the Rezk completion together with its universal property.
+Section \ref{sec:formalization} discusses content of the formalization, organization of source files, and the differences between informal presentation and its formal analog.
 
 Finally, in \S\ref{sec:semantics} we discuss semantics\dots [something about equipments, CSS, stacks]\dots
 
 \dots [conclusion] \dots
-\marginpar{Where should we acknowledge Vladimir?}
 
+\paragraph*{Acknowledgements} First and foremost we would like to thank Vladimir Voevodsky for \ldots [possibly infinite list of things] \ldots [but grant support was also really helpful] \ldots
 
 \section{Categories and precategories}
 \label{sec:cats}
@@ -1040,7 +1069,7 @@ First we need to define opposites and products of (pre)categories.
 Now for any precategory $A$, we have a hom-functor
 \[\hom_A : A\op \times A \to \uset.\]
 It takes a pair $(a,b): (A\op)_0 \times A_0 \jdeq A_0 \times A_0$ to the set $\hom_A(a,b)$.
-For a morphism $(f,f') : \hom_{A\op\times A}((a,b),(a',b'))$, by definition we have $f:\hom_A(a',a)$ and $f':\hom_A(b,b')$, so we can define 
+For a morphism $(f,f') : \hom_{A\op\times A}((a,b),(a',b'))$, by definition we have $f:\hom_A(a',a)$ and $f':\hom_A(b,b')$, so we can define
 \begin{align*}
   (\hom_A)_{(a,b),(a',b')}(f,f')
   &\defeq (g \mapsto (f'gf))\\
@@ -1132,7 +1161,7 @@ One would have to be similarly careful in classical category theory if one wante
   Thus let $b:B$; we want to show $\gamma_b=\delta_b$.
   This is a mere proposition, so since $H$ is essentially surjective, we may assume given an $a:A$ and an isomorphism $f:Ha\cong b$.
   But now we have
-  \[ \gamma_b = G(f) \circ \gamma_{Ha} \circ F(\inv{f}) 
+  \[ \gamma_b = G(f) \circ \gamma_{Ha} \circ F(\inv{f})
   = G(f) \circ \delta_{Ha} \circ F(\inv{f})
   = \delta_b.\qedhere
   \]
@@ -1246,7 +1275,7 @@ In univalent foundations, however, if $C$ is a category, then isomorphism is equ
   Now by~\ref{item:eqvprop3}, we have $k_{a,h}\circ Fm = k_{a_0,h_0}$ and $k_{a',h'}\circ Fm' = k_{a_0',h_0'}$.
   We also have
   \begin{align*}
-    Hm' \circ H\ell_0 
+    Hm' \circ H\ell_0
     &= \inv{(h')} \circ h_0' \circ H\ell_0\\
     &= \inv{(h')} \circ f \circ h_0\\
     &= \inv{(h')} \circ f \circ h \circ \inv{h} \circ h_0\\
@@ -1340,7 +1369,7 @@ Thus, insofar as the latter is inevitable, so is the former.
 
 \end{document}
 
-%%% Local Variables: 
+%%% Local Variables:
 %%% mode: latex
 %%% TeX-master: t
-%%% End: 
+%%% End:
