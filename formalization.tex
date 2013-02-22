@@ -128,15 +128,14 @@ We shall mention here the only example of such a deviation, resulting in a slick
 In \autoref{def:adjoint} the natural transformations $(\epsilon F)$ and $(F\eta)$ (similarly, 
 $(G\epsilon)$ and $(\eta G)$) are actually not
 composable! We have $\epsilon F : (FG)F \to 1_{B}F$ and $F\eta : F1_A \to F(GF)$. 
-However, $(FG)F$ and $F(GF)$ are not convertible in our system,
-which is necessary for the composition to typecheck. So in order to state the equality in question
-we would have to insert extra coherence data.
+However, $(FG)F$ and $F(GF)$ are not convertible, i.e.\ not \emph{definitionally} equal, 
+which would be necessary for the composition to typecheck. So in order to state the equality in question
+we would have to insert a transport along propositional equality---see \autoref{ct:functor-assoc} and the subsequent discussion.
 
 We overcome this issue by rephrasing the axiom: instead of requiring an equality of natural 
 transformations, we require it to hold pointwise. 
 These statements are logically and type-theoretically equivalent, but for the latter we have the
-desired convertibility. 
-Indeed, for any $a : A$, we have $\big(F(GF)\big)(a)$ is convertible to $\big((FG)F\big)(a)$.
+desired convertibility: for any $a : A$, the term $\big(F(GF)\big)(a)$ is convertible to $\big((FG)F\big)(a)$.
 
 
 
