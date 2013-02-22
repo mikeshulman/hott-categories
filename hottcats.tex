@@ -268,18 +268,27 @@ However, a (usually) better option is to require it to satisfy a generalized ver
 (In particular, this implies that each type $(x=_{\mathsf{Obj}} y)$ is a set, and that therefore the type of objects is a \emph{1-type}, containing no higher homotopy above dimension 1.)
 We consider this to be the ``correct'' definition of \emph{category} in univalent foundations; for emphasis we may call it a \emph{saturated} or \emph{univalent} category.
 
-The categories we often encounter in practice are not saturated (such as the category on $n$-types).
-As we will see in the next sections, they behave much worse than the saturated ones.
-This is why we call them \emph{precategories} to emphasize that the theory should rather be developed for saturated categories.
-In fact, we can see that with many respects the set-theoretic category theory is reflected by saturated categories, not precategories.
-And so we will drop the adjective ``saturated'' and refer to them as simply ``categories''
+Most categories encountered in practice are saturated, at least in the presence of the univalence axiom.
+Those which are not saturated, such as the homotopy category of $n$-types for $n\ge 1$, tend to behave much worse than the saturated ones.
+Thus, in the non-saturated case we use instead the word \emph{precategory}, to emphasize that the theory should rather be developed for saturated categories.
+In many respects, familiar set-theoretic category theory is best reflected by saturated categories, not by precategories.
+Thus, we will usually drop the adjective ``saturated'' and refer to them as simply ``categories''.
 
-There is an obvious inclusion, i.e. a map with fibers being propositions, of (univalent) categories into precategories.
+There is an obvious inclusion (that is, a map whose fibers are propositions), of (saturated) categories into precategories.
 One of the main goals of this paper is to show that this inclusion has a left adjoint (in the appropriate bicategorical sense).
-That is, given any precategory $A$, we construct a (univalent) category $\hat{A}$ together with a fully faithful and essentially surjective functor
-(the unit of the adjunction) $A \to \hat{A}$.
+That is, given any precategory $A$, we construct a (saturated) category $\widehat{A}$ together with a universal functor
+(the unit of the adjunction) $A \to \widehat{A}$.
 
-Our construction is a type-theoretic analog of the familiar homotopy-theoretic construction given by Rezk \cite[Sec.~14]{rezk01css} for Segal spaces.
+Homotopy-theoretically, our precategories are a truncated analogue of the \emph{Segal spaces} of Rezk~\cite[Sec.~14]{rezk01css}, while our saturated categories correspond to his \emph{complete Segal spaces}.
+Thus, we call the ``saturation'' operation the \emph{Rezk completion}.
+Our construction uses a Yoneda embedding rather than a transfinite localization argument as in \emph{ibid.}, but it is also possible to mimic the latter more closely in type theory using ``higher inductive types''.
+
+Our approach to category theory also sheds light on the notion of equivalence of categories.
+In set-based category theory, the statement ``every fully faithful and essentially surjective functor is an equivalence of categories'' is equivalent to the axiom of choice.
+For (saturated) categories, however, this statement is simply \emph{true}, while for general precategories, there is no axiom of choice that can make it true.
+(It is still equivalent to the axiom of choice when restricted to \emph{strict} categories.)
+Moreover, the Rezk completion functor $A \to \widehat{A}$ is fully faithful and essentially surjective, and a precategory is a category exactly when it ``sees'' all such functors as equivalences.
+This implies that the notion of (saturated) category is already inherent in the notion of ``fully faithful and essentially surjective functor''.
 
 We consider types in Univalent Foundations to be stratified in a
 linearly ordered hierarchy of \emph{universes}.
@@ -288,11 +297,12 @@ appealing instead to \emph{typical ambiguity}:
 type variables live in \emph{some} universe, and universes 
 are quantified over implicitly.
 All the constructions of this paper can be carried out in \emph{one}
-universe, with one exception: the Yoneda embedding rises the
+universe, with one exception: the Yoneda embedding raises the
 universe level by one, since the category of h-sets of universe, say, $n$ lives in universe $n+1$.
 
-In \S\S\ref{sec:cats}--\ref{sec:yoneda} we develop the basic theory of such categories informally: functors, natural transformations, adjunctions, equivalences, and the Yoneda lemma.
-Then in \S\ref{sec:rezk} we construct the \emph{Rezk completion}, which makes any precategory into a category in a universal way.
+\subsection*{Outline of the paper}
+In \S\S\ref{sec:cats}--\ref{sec:yoneda} we develop the basic theory of precategories and categories informally: functors, natural transformations, adjunctions, equivalences, and the Yoneda lemma.
+In \S\ref{sec:rezk} we construct the Rezk completion, which as described above, makes any precategory into a category in a universal way.
 
 Large parts of this development have been formally verified in the proof assistant \textsf{Coq}, building on Voevodsky's \emph{Foundations} library \cite{vv_foundations}.
 In particular, the formalization includes the Rezk completion together with its universal property.
@@ -302,7 +312,7 @@ Finally, in \S\ref{sec:semantics} we discuss semantics\dots [something about equ
 
 \dots [conclusion] \dots
 
-\paragraph*{Acknowledgements} First and foremost we would like to thank Vladimir Voevodsky for \ldots [possibly infinite list of things] \ldots [but grant support was also really helpful] \ldots
+\subsection*{Acknowledgements} First and foremost we would like to thank Vladimir Voevodsky for \ldots [possibly infinite list of things] \ldots [but grant support was also really helpful] \ldots
 
 \section{Categories and precategories}
 \label{sec:cats}
@@ -1052,7 +1062,7 @@ First we need to define opposites and products of (pre)categories.
   This gives a function $A_0 \to (C^B)_0$.
   Next, for any $f:\hom_A(a,a')$, we have for any $b:B$ the morphism $F_{(a,b),(a',b)}(f,1_b):F_a(b) \to F_{a'}(b)$.
   These are the components of a natural transformation $F_a \to F_{a'}$.
-  Functoriality in $a$ is easy to check, so we have a functor $\hat{F}:A\to C^B$.
+  Functoriality in $a$ is easy to check, so we have a functor $\widehat{F}:A\to C^B$.
 
   Conversely, suppose given $G:A\to C^B$.
   Then for any $a:A$ and $b:B$ we have the object $G(a)(b):C$, giving a function $A_0 \times B_0 \to C_0$.
@@ -1304,7 +1314,7 @@ In univalent foundations, however, if $C$ is a category, then isomorphism is equ
   Hence, we have $GH=F$, and thus $GH\cong F$ as desired.
 \end{proof}
 
-Therefore, if a precategory $A$ admits a weak equivalence functor $A\to \hat{A}$, then that is its ``reflection'' into categories: any functor from $A$ into a category will factor essentially uniquely through $\widehat{A}$.
+Therefore, if a precategory $A$ admits a weak equivalence functor $A\to \widehat{A}$, then that is its ``reflection'' into categories: any functor from $A$ into a category will factor essentially uniquely through $\widehat{A}$.
 We now construct such a weak equivalence.
 
 \begin{thm}\label{thm:rezk-completion}
