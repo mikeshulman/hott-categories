@@ -1,0 +1,60 @@
+\newcommand{\Eq}{\mathsf{Eq}}
+\newcommand{\fib}[2]{\ensuremath{\mathsf{fib}({#1},{#2})}} % let's avoid f^{-1}(y), since that also denotes inverse in categories
+\newcommand{\iscontr}{\mathsf{isContr}}
+\newcommand{\istype}[1]{\mathsf{is}\mbox{-}{#1}\mbox{-}\mathsf{type}}
+\newcommand{\idtoeq}{\ensuremath{\mathsf{idtoeq}}}
+
+\section{Background on Univalent Foundations}
+\label{sec:background}
+
+In this section we gather some basic definitions and facts from the Univalent Foundations, in order to fix the terminology used
+later on. 
+An introduction to the Univalent Foundations can be found in \cite{pelayo-warren:univalent-foundations-paper}.
+
+\begin{defn}[see {\cite[Sec.~7.1]{pelayo-warren:univalent-foundations-paper}}]
+ A type $X$ is \textbf{contractible} if there exists $x_0 : X$ such that for any $x : X$ we have $\id[X]{x_0}{x}$.
+\end{defn}
+
+\begin{defn}[see {\cite[Sec.~8.3]{pelayo-warren:univalent-foundations-paper}}]\label{def:hlevel}
+The \textbf{$n$-types} are defined by recursion as follows:
+\begin{itemize}
+ \item A type $X$ is a $(-2)$-type if it is contractible.
+ \item A type $X$ is a $(n+1)$-type if for all $x, y : X$ the type $\id[X]x y$ is an $n$-type.
+\end{itemize}
+\end{defn}
+
+The $(-1)$-types will be called \textbf{propositions} and the $0$-types \textbf{sets}.
+
+We next turn towards the notion of equivalence of types, for which we need an intermediate notion.
+
+\begin{defn}[see {\cite[Sec.~7.2]{pelayo-warren:univalent-foundations-paper}}]
+ Given a map $f \colon X \to Y$ and an element $y : Y$ the \textbf{fiber} of $f$ over $y$ is the type
+ \[\fib{f}{y} := \sum_{x : X} \id[Y]{fx}{y}\]
+\end{defn}
+
+\begin{defn}[see {\cite[Sec.~7.3]{pelayo-warren:univalent-foundations-paper}}]
+ A map $f \colon X \to Y$ is an \textbf{equivalence} if for every $y : Y$, the homotopy fiber $\fib{f}{y}$ is contractible.
+\end{defn}
+Note that being an equivalence is a mere proposition.
+
+The type of all equivalences between $X$ and $Y$ will be denoted $\Eq(X, Y)$. The following lemma gives a useful way of proving that a map is an equivalence:
+
+\begin{lem}[see {\cite[Sec.~7.4]{pelayo-warren:univalent-foundations-paper}}]
+ A map $f \colon X \to Y$ is an equivalence if and only if it is a \textbf{homotopy equivalence} in the sense that there exists $g \colon Y \to X$ together with:
+ \[\eta : \prod_{x : X} (\id{x}{gf(x)}) \qquad \text{and} \qquad \epsilon : \prod_{y : Y} (\id{y}{fg(y)})\]
+\end{lem}
+
+The type of equivalences and homotopy equivalences between any two types are not themselves equivalent. 
+While ``being an equivalence'' is a mere proposition, ``being a homotopy equivalence'' is not. 
+In other words, the map taking a homotopy equivalence between $X$ and $Y$ to its underlying map is not an inclusion.
+
+For a type universe $\type$, given $X, Y : \type$, by induction on identity, we may construct a map
+\begin{equation} \label{eq:ua_map}
+ \idtoeq_{X,Y} : (\id X Y) \to \Eq(X, Y).
+\end{equation}
+
+\begin{defn}[Univalence Axiom, see {\cite[Sec.~8.1]{pelayo-warren:univalent-foundations-paper}}]
+ A universe $\type$ is \textbf{univalent}, if for any $X, Y : \type$, the map $\idtoeq_{X,Y}$ of \autoref{eq:ua_map} is an equivalence.
+\end{defn}
+In the following we work in a hierarchy of \emph{univalent} universes as described above.
+
