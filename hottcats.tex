@@ -311,10 +311,12 @@ In particular, the formalization includes the Rezk completion together with its 
 \end{rmk}
 
 \subsection*{Outline of the paper}
-In \S\S\ref{sec:cats}--\ref{sec:yoneda} we develop the basic theory of precategories and saturated categories informally, working entirely inside of univalent foundations.
+
+In \S\ref{sec:background} we recall some definitions from Univalent Foundations.
+Then in \S\S\ref{sec:cats}--\ref{sec:yoneda} we develop the basic theory of precategories and saturated categories informally, working entirely inside of univalent foundations.
 We define functors, natural transformations, adjunctions, equivalences, and prove the Yoneda lemma.
 We also show that equivalent categories are equal.
-Then in \S\ref{sec:rezk} we construct the Rezk completion which, as described above, saturates any precategory in a universal way.
+In \S\ref{sec:rezk} we construct the Rezk completion which, as described above, saturates any precategory in a universal way.
 
 Section \ref{sec:formalization} describes the content of our formalization, the organization of the source files, and the differences between informal presentation and its formal analog.
 The actual Coq code is available as a supplement to this paper.
@@ -330,7 +332,7 @@ Finally, in \S\ref{sec:semantics} we briefly discuss the categorical semantics\d
 \label{sec:uf}
 
 Most of this paper is written in an informal style, with the intent of describing mathematics that could be formalized in Univalent Foundations, analogously to the way that traditional mathematics is discussed informally but is generally accepted to be formalizable in set theory.
-We do not have space to give an introduction to UF here; instead we refer the reader to~[ref].
+We do not have space to give an introduction to UF here; instead we refer the reader to~\cite{pelayo-warren:univalent-foundations-paper}.
 However, a brief reminder of the essential concepts may be helpful.
 
 The basic objects are \emph{types}, which have \emph{elements}, with the basic judgment of elementhood denoted $a:A$.
@@ -367,6 +369,7 @@ In contrast to the type-theoretic ``there exists'' which is strongly constructiv
 The propositional truncation is actually the case $n=-1$ of a more general $n$-truncation operation, which makes any type $A$ into an $n$-type $\trunc n A$ in a universal way.
 However, we will not have much need of the $n$-truncation for $n\ge 0$.
 
+\input{background.tex}
 
 \section{Categories and precategories}
 \label{sec:cats}
