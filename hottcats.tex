@@ -94,14 +94,18 @@
 \newcommand{\proj}[1]{\ensuremath{\mathsf{pr}_{#1}}\xspace}
 
 %%% Bracket/squash/truncation types %%%
-% \newcommand{\brck}[1]{\textsf{mere}(#1)}
-% \newcommand{\Brck}[1]{\textsf{mere}\Big(#1\Big)}
-\newcommand{\trunc}[2]{\tau_{#1}(#2)}
-\newcommand{\Trunc}[2]{\tau_{#1}\Big(#2\Big)}
-\newcommand{\truncf}[1]{\tau_{#1}}
+\newcommand{\trunc}[2]{\Vert #2\Vert_{#1}}
+\newcommand{\ttrunc}[2]{\big\Vert #2\big\Vert_{#1}}
+\newcommand{\Trunc}[2]{\Big\Vert #2\Big\Vert_{#1}}
+\newcommand{\truncf}[1]{\Vert -\Vert_{#1}}
+\newcommand{\tproj}[2]{|#2|_{#1}}
+\newcommand{\tprojf}[1]{|-|_{#1}}
 \def\pizero{\trunc0}
-\newcommand{\brck}[1]{\trunc{-1}{#1}}
-\newcommand{\Brck}[1]{\Trunc{-1}{#1}}
+\newcommand{\brck}[1]{\trunc{}{#1}}
+\newcommand{\bbrck}[1]{\ttrunc{}{#1}}
+\newcommand{\Brck}[1]{\Trunc{}{#1}}
+\newcommand{\bproj}[1]{\tproj{}{#1}}
+\newcommand{\bprojf}{\tprojf{}}
 
 %%% The unit type
 \newcommand{\unit}{\ensuremath{\mathbf{1}}\xspace}
@@ -240,17 +244,12 @@ Another is that most of category theory is invariant under weaker notions of ``s
 \marginpar{Are there other problems specific to formalization?}
 
 Our aim in this paper is to show that these problems can be ameliorated using the new \emph{univalent foundations} of mathematics, a.k.a.\ \emph{homotopy type theory}.
-Univalent foundations is a new approach to foundations of mathematics,
-proposed by V. Voevodsky \cite{vv_uf}, building on the existing development
-of dependent type theory [reference], a logical system feasible for
-(large-scale) formalization of mathematics [references]. The distinctive
-feature of the Univalent Foundations is its treatment of equality inspired
-by homotopy--theoretic semantics [references]. Voevodsky extended the
-dependent type theory by an additional axiom, called the \emph{Univalence
-Axiom}, suggested by the interpretation of the theory in the category of
-simplicial sets [reference].
+Univalent foundations is a new approach to foundations of mathematics, proposed by V.~Voevodsky \cite{vv_uf}.
+It builds on the existing system of dependent type theory [reference], a logical system that is feasible for large-scale formalization of mathematics [references] and also for internal categorical logic.
+The distinctive feature of Univalent Foundations is its treatment of equality inspired by homotopy-theoretic semantics [references].
+Using this interpretation, Voevodsky has extended dependent type theory with an additional axiom, called the \emph{Univalence Axiom}, which was originally suggested by the interpretation of the theory in the category of simplicial sets [reference], and is also valid in other homotopical interpretations such as categories of higher stacks.
 
-The univalence axiom identifies \emph{equivalence} of types with \emph{identity} of types.
+The univalence axiom identifies \emph{identity} of types with \emph{equivalence} of types.
 In particular, this implies that anything we can say about sets is automatically invariant under isomorphism, because isomorphism is identified with identity.
 In other words, under the univalence axiom, the category of sets \emph{automatically} behaves ``categorically'', in that its objects cannot be distinguished more finely than up to (unique) isomorphism.
 Our goal in this paper is to extend this behavior to other categories, which requires a more careful analysis of the definition of ``category''.
@@ -259,69 +258,123 @@ If we ignore size issues, then in set-based mathematics, a category consists of 
 Under univalent foundations, a ``naive'' definition of category would simply mimic this with a \emph{type} of objects and \emph{types} of morphisms.
 However, if we allowed these types to contain arbitrary higher homotopy, then we ought to impose higher coherence conditions on the associativity and unitality axioms, leading to some notion of $(\infty,1)$-category.
 Eventually this should be done, but at present our goal is more modest.
-We restrict ourselves to 1-categories, and therefore we restrict the hom-types $\hom(x,y)$ to be \emph{sets} in the sense of UF, i.e.\ types satisfying UIP.
+We restrict ourselves to 1-categories, and therefore we restrict the hom-types $\hom(x,y)$ to be \emph{sets} in the sense of UF, i.e.\ types satisfying the principle UIP of ``uniqueness of identity proofs''.
 
 More interesting is whether the type of objects should have any higher homotopy.
 If we require it also to be a set, then we end up with a definition that behaves more like the traditional set-theoretic one.
 Following Toby Bartels, we call this notion a \emph{strict category}.
-However, a (usually) better option is to require it to satisfy a generalized version of the univalence axiom, identifying the \emph{identity type} $(x=_{\mathsf{Obj}} y)$ between two objects with the type $\mathsf{iso}(x,y)$ of \emph{isomorphisms} from $x$ to $y$.
+
+However, a (usually) better option is to require a generalized version of the univalence axiom, identifying the \emph{identity type} $(x=_{\mathsf{Obj}} y)$ between two objects with the type $\mathsf{iso}(x,y)$ of \emph{isomorphisms} from $x$ to $y$.
 (In particular, this implies that each type $(x=_{\mathsf{Obj}} y)$ is a set, and that therefore the type of objects is a \emph{1-type}, containing no higher homotopy above dimension 1.)
 We consider this to be the ``correct'' definition of \emph{category} in univalent foundations; for emphasis we may call it a \emph{saturated} or \emph{univalent} category.
 
 Most categories encountered in practice are saturated, at least in the presence of the univalence axiom.
 Those which are not saturated, such as the homotopy category of $n$-types for $n\ge 1$, tend to behave much worse than the saturated ones.
-Thus, in the non-saturated case we use instead the word \emph{precategory}, to emphasize that the theory should rather be developed for saturated categories.
-In many respects, familiar set-theoretic category theory is best reflected by saturated categories, not by precategories.
-Thus, we will usually drop the adjective ``saturated'' and refer to them as simply ``categories''.
+Thus, in the non-saturated and non-strict case, we use instead the slightly derogatory word \emph{precategory}.
 
-There is an obvious inclusion (that is, a map whose fibers are propositions), of (saturated) categories into precategories.
-One of the main goals of this paper is to show that this inclusion has a left adjoint (in the appropriate bicategorical sense).
-That is, given any precategory $A$, we construct a (saturated) category $\widehat{A}$ together with a universal functor
-(the unit of the adjunction) $A \to \widehat{A}$.
+A good example of the difference between the three notions of category is provided by the statement ``every fully faithful and essentially surjective functor is an equivalence of categories'', which in classical set-based category theory is equivalent to the axiom of choice.
+\begin{enumerate}
+\item For strict categories, this statement is still equivalent to to the axiom of choice.
+\item For precategories, there is no axiom of choice which can make it true.
+\item For saturated categories, it is provable \emph{without} any axiom of choice.\label{item:satnoac}
+\end{enumerate}
+Saturated categories have the additional advantage that they are ``univalent as objects'' as well.
+Specifically, just the way isomorphic objects \emph{in} a saturated category are equal, \emph{equivalent} saturated categories are themselves equal.
 
-Homotopy-theoretically, our precategories are a truncated analogue of the \emph{Segal spaces} of Rezk~\cite[Sec.~14]{rezk01css}, while our saturated categories correspond to his \emph{complete Segal spaces}.
-Thus, we call the ``saturation'' operation the \emph{Rezk completion}.
-Our construction uses a Yoneda embedding rather than a transfinite localization argument as in \emph{ibid.}, but it is also possible to mimic the latter more closely in type theory using ``higher inductive types''.
+When interpreted in Voevodsky's simplicial set model, our precategories are a truncated analogue of the \emph{Segal spaces} of Rezk~\cite[Sec.~14]{rezk01css}, while our saturated categories correspond to his \emph{complete Segal spaces}.
+Strict categories correspond instead to (a weakened and truncated version of) the \emph{Segal categories} of~[reference].
+It is known that Segal categories and complete Segal spaces are equivalent models for $(\infty,1)$-categories, so that in the simplicial set model, strict and saturated categories yield ``equivalent'' category theories---although as mentioned above, the saturated ones still have many advantages.
 
-Our approach to category theory also sheds light on the notion of equivalence of categories.
-In set-based category theory, the statement ``every fully faithful and essentially surjective functor is an equivalence of categories'' is equivalent to the axiom of choice.
-For (saturated) categories, however, this statement is simply \emph{true}, while for general precategories, there is no axiom of choice that can make it true.
-(It is still equivalent to the axiom of choice when restricted to \emph{strict} categories.)
-Moreover, the Rezk completion functor $A \to \widehat{A}$ is fully faithful and essentially surjective, and a precategory is a category exactly when it ``sees'' all such functors as equivalences.
-This implies that the notion of (saturated) category is already inherent in the notion of ``fully faithful and essentially surjective functor''.
+However, in the more general categorical semantics of a higher topos, a strict category corresponds to an internal category (in the traditional sense) in the corresponding 1-topos of sheaves, while a saturated category corresponds to a \emph{stack}.
+Internal categories are \emph{not} equivalent to stacks, and it is well-known that stacks are generally a more appropriate sort of ``category'' relative to a topos.
 
-We consider types in Univalent Foundations to be stratified in a
-linearly ordered hierarchy of \emph{universes}.
-Throughout the paper we avoid mentioning universes explicitly,
-appealing instead to \emph{typical ambiguity}:
-type variables live in \emph{some} universe, and universes 
-are quantified over implicitly.
-All the constructions of this paper can be carried out in \emph{one}
-universe, with one exception: the Yoneda embedding raises the
-universe level by one, since the category of h-sets of universe, say, $n$ lives in universe $n+1$.
+Besides developing the basic theory of precategories and saturated categories, one of the main goals of this paper is to describe a universal way of ``saturating'' a precategory.
+More precisely, we show that the obvious inclusion of saturated precategories into categories has a left adjoint, in the appropriate bicategorical sense.
+More concretely, from any precategory $A$, we construct a saturated category $\widehat{A}$, with a universal functor
+$A \to \widehat{A}$ (the unit of the adjunction).
+With the connection to Rezk's complete Segal spaces in mind, we call the ``saturation'' operation the \emph{Rezk completion}, although with higher topos semantics in mind it could also reasonably be called the \emph{stack completion}.
+Our construction uses a Yoneda embedding rather than a transfinite localization argument as in~\cite{rezk01css}, but it is also possible to mimic the latter more closely in type theory using ``higher inductive types''~\cite{ls:hits}.
+
+The existence of the Rezk completion also sheds further light on the notion of equivalence of categories.
+For instance, the functor $A \to \widehat{A}$ is always fully faithful and essentially surjective, hence a ``weak equivalence''.
+It follows that a precategory is a saturated category exactly when it ``sees'' all fully faithful and essentially surjective functors as equivalences.
+(This matches the characterization of complete Segal spaces as a homotopical localization of Segal spaces.)
+In particular, the notion of saturated category is already inherent in the notion of ``fully faithful and essentially surjective functor''; saturated categories are \emph{precisely} the precategories for which~\ref{item:satnoac} above holds.
+
+Finally, as mentioned above, one of the virtues of Univalent Foundations (and type theory more generally) is the feasibility of formalizing it in a computer proof assistant.
+We have taken advantage of this by verifying large parts of the theory of precategories and saturated categories in the proof assistant \textsf{Coq}, building on Voevodsky's \emph{Foundations} library for UF~\cite{vv_foundations}.
+In particular, the formalization includes the Rezk completion together with its universal property.
+
+\begin{rmk}
+  Because saturated categories are the ``correct'' notion of category in UF, when working internally to UF we drop the adjective ``saturated'' and speak merely of \emph{categories}.
+  The adjective is only necessary when comparing such categories to other ``external'' notions of category.
+\end{rmk}
 
 \subsection*{Outline of the paper}
-In \S\S\ref{sec:cats}--\ref{sec:yoneda} we develop the basic theory of precategories and categories informally: functors, natural transformations, adjunctions, equivalences, and the Yoneda lemma.
-In \S\ref{sec:rezk} we construct the Rezk completion, which as described above, makes any precategory into a category in a universal way.
+In \S\S\ref{sec:cats}--\ref{sec:yoneda} we develop the basic theory of precategories and saturated categories informally, working entirely inside of univalent foundations.
+We define functors, natural transformations, adjunctions, equivalences, and prove the Yoneda lemma.
+We also show that equivalent categories are equal.
+Then in \S\ref{sec:rezk} we construct the Rezk completion which, as described above, saturates any precategory in a universal way.
 
-Large parts of this development have been formally verified in the proof assistant \textsf{Coq}, building on Voevodsky's \emph{Foundations} library \cite{vv_foundations}.
-In particular, the formalization includes the Rezk completion together with its universal property.
-Section \ref{sec:formalization} discusses content of the formalization, organization of source files, and the differences between informal presentation and its formal analog.
+Section \ref{sec:formalization} describes the content of our formalization, the organization of the source files, and the differences between informal presentation and its formal analog.
+The actual Coq code is available as a supplement to this paper.
 
-Finally, in \S\ref{sec:semantics} we discuss semantics\dots [something about equipments, CSS, stacks]\dots
+Finally, in \S\ref{sec:semantics} we briefly discuss the categorical semantics\dots [something about equipments, CSS, stacks]\dots
 
 \dots [conclusion] \dots
 
 \subsection*{Acknowledgements} First and foremost we would like to thank Vladimir Voevodsky for \ldots [possibly infinite list of things] \ldots [but grant support was also really helpful] \ldots
 
+
+\section{Review of univalent foundations}
+\label{sec:uf}
+
+Most of this paper is written in an informal style, with the intent of describing mathematics that could be formalized in Univalent Foundations, analogously to the way that traditional mathematics is discussed informally but is generally accepted to be formalizable in set theory.
+We do not have space to give an introduction to UF here; instead we refer the reader to~[ref].
+However, a brief reminder of the essential concepts may be helpful.
+
+The basic objects are \emph{types}, which have \emph{elements}, with the basic judgment of elementhood denoted $a:A$.
+There are the usual constructions on types such as dependent sums and dependent products, which we generally write about in English according to the propositions-as-types interpretation: we identify the activity of \emph{proving a theorem} with the activity of \emph{constructing a term in a type}.
+For instance, a statement like ``for all $a:A$ we have $P(x)$'' indicates that we have an element of the type $\prd{x:A} P(x)$, while ``there exists an $a:A$ such that $P(x)$'' indicates $\sm{x:A} P(x)$.
+
+For $a,b:A$ there is an \emph{identity type} $a=b$, which in the homotopical semantics becomes a \emph{path type}.
+It has the universal property that we may prove things about a general $p:a=b$ by restricting to the special case when $a$ and $b$ are the same and $p$ is ``reflexivity''.
+We refer to this as \emph{path induction} or \emph{inducion on identity}.
+
+The types in UF are stratified in a linearly ordered hierarchy of \emph{universes}, which are types whose elements are themselves types.
+All our universes are assumed to satisfy the univalence axiom, which says that for types $A,B:\type$ in some universe \type, the identity type $A=_\type B$ is equivalent to the type $A\simeq B$ of equivalences between $A$ and $B$.
+
+Throughout the paper we avoid mentioning particular universes explicitly: we write simply ``\type'' to indicate \emph{some} universe.
+This is called \emph{typical ambiguity}: universes are implicitly quantified over.
+In fact, all the constructions of this paper can be carried out using only \emph{one} universe, with one very important exception: the Yoneda embedding raises the universe level by one, since the category of sets in one universe lives in the next higher universe.
+Since our construction of the Rezk completion relies on the Yoneda embedding, this means that it also raises the universe level.
+\marginpar{I wonder whether that means we really ought to make the universes explicit\dots}
+(As mentioned in the introduction, it is also possible to construct the Rezk completion using higher inductive types, in which case it remains in the same universe.)
+
+A type $A$ is called a \emph{mere proposition} if for all $a,b:A$ we have $a=b$.
+Homotopically, these are the spaces which, if nonempty, are contractible.
+Similarly, $A$ is called a \emph{set} if for all $a,b:A$, the type $a=b$ is a mere proposition.
+Homotopically, these are the spaces which are equivalent to discrete ones.
+More generally, $A$ is called an \emph{$n$-type} if each $a=b$ is an $(n-1)$-type, with the 0-types being the sets and the $(-1)$-types the mere propositions; these exactly match the traditional notion of \emph{homotopy $n$-type}.
+We write $\set$ for the type $\sm{A:\type} \mathsf{isset}(A)$ of all sets (in some universe \type).
+Technically, this is the type of pairs $(A,s)$ where $A$ is a type and $s$ inhabits the type ``$A$ is a set'', but since the latter type is a mere proposition, it is usually easy to ignore the distinction.
+
+One type forming operation we use in UF which is not as well-known in type theory is the \emph{propositional truncation} of a type $A$.
+This is a type $\brck A$ that is a mere proposition, and has the universal property that whenever we want to prove a type $B$ assuming $\brck A$, and $B$ is a mere proposition, then we may assume $A$ instead of $\brck A$.
+In informal mathematical English, we use the adverb \emph{merely} to indicate the propositional truncation; thus for instance ``there merely exists an $x:A$ such that $P(x)$'' indicates $\bbrck{\sm{x:A} P(x)}$.
+In contrast to the type-theoretic ``there exists'' which is strongly constructive, ``mere existence'' is more like the usual mathematical sort of ``there exists'' which does not imply that any particular choice of such an object has been specified.
+
+The propositional truncation is actually the case $n=-1$ of a more general $n$-truncation operation, which makes any type $A$ into an $n$-type $\trunc n A$ in a universal way.
+However, we will not have much need of the $n$-truncation for $n\ge 0$.
+
+
 \section{Categories and precategories}
 \label{sec:cats}
 
-In classical mathematics, there are many equivalent definitions of a category.
-In our case, since we have dependent types, it is natural to choose the arrows to be dependent over the objects.
-This matches the way hom-types are always used in category theory: we never even consider comparing two arrows unless we know their sources and targets agree.
+We use a definition of category in which the arrows form a family of types indexed by the objects.
+This matches the way hom-types are always used in category theory; for instance, we never even consider comparing two arrows unless we know their sources and targets agree.
 Furthermore, it seems clear that for a theory of 1-categories, the hom-types should all be sets.
-This leads us to the following definition.
+This leads us to the following.
 
 \begin{defn}\label{ct:precategory}
   A \textbf{precategory} $A$ consists of the following.
@@ -353,7 +406,7 @@ But on the other hand, there is the standard categorical notion of \emph{isomorp
 \begin{proof}
   Suppose given $g:\hom_A(b,a)$ and $\eta:(\id{1_a}{g\circ f})$ and $\epsilon:(\id{f\circ g}{1_b})$, and similarly $g'$, $\eta'$, and $\epsilon'$.
 We must show $\id{(g,\eta,\epsilon)}{(g',\eta',\epsilon')}$.
-  But since all hom-sets are sets, their identity types are mere propositions, so it suffices to show $\id g {g'}$.
+  But since all hom-sets are sets, their identity types (in which $\eta$ and $\epsilon$ live) are mere propositions, so it suffices to show $\id g {g'}$.
   For this we have
   \[g' = 1_a\circ g' = (g\circ f)\circ g' = g\circ (f\circ g') = g\circ 1_b = g\]
   using $\eta$ and $\epsilon'$.
@@ -372,13 +425,13 @@ The only relationship between these two notions of sameness that we have in a pr
   But then we have $1_a:\hom_A(a,a)$, which is clearly an isomorphism.
 \end{proof}
 
-Evidently, this situation is analogous to the issue that motivated us to introduce the univalence axiom.
-In fact, we have the following:
+The intuitive similarity to the univalence axiom should be clear.
+More precisely, we have the following:
 
 \begin{eg}\label{ct:precatset}
   There is a precategory \uset, whose type of objects is \set, and with $\hom_{\uset}(A,B) \defeq (A\to B)$.
   The identity morphisms are identity functions and the composition is function composition.
-  For this precategory, \autoref{ct:idtoiso} is equal to (the restriction to sets of) the identity-to-equivalence map from the chapter on univalence.
+  For this precategory, \autoref{ct:idtoiso} is equal to the restriction to sets of the canonical identity-to-equivalence map, which the univalence axiom asserts to be an equivalence.
 \end{eg}
 
 Thus, it is natural to make the following definition.
@@ -388,11 +441,10 @@ Thus, it is natural to make the following definition.
 \end{defn}
 
 In particular, in a category, if $a\cong b$, then $a=b$.
-The usefulness of a definition of categories of this sort, where the type of objects contains all the categorical isomorphisms, was first strongly emphasized (in the context of set-based definitions of higher categories) by Charles Rezk~\cite{rezk01css}.
 
 \begin{eg}\label{ct:eg:set}
   The univalence axiom implies immediately that \uset is a category.
-  One can also show, using univalence, that any precategory of set-level structures such as groups, rings, topological spaces, etc.\ is a category.
+  One can also show, using univalence, that any precategory of set-level structures such as groups, rings, topological spaces, etc.\ is a category.  [references?]
 \end{eg}
 
 We also note the following.
@@ -454,54 +506,55 @@ and so on.
 \end{eg}
 
 \begin{eg}\label{ct:fundgpd}
-  For \emph{any} type $X$, there is a precategory with $X$ as its type of objects and with $\hom(x,y) \defeq \pizero{x=y}$.
-  The composition operation
-  \[ \pizero{y=z} \to \pizero{x=y} \to \pizero{x=z} \]
-  is defined by induction on truncation from concatenation $(y=z)\to(x=y)\to(x=z)$.
+  For \emph{any} type $X$, there is a precategory with $X$ as its type of objects and with $\hom(x,y) \defeq \pizero{x=y}$, the 0-truncation of its identity type.
+  % The composition operation
+  % \[ \pizero{y=z} \to \pizero{x=y} \to \pizero{x=z} \]
+  % is defined by induction on truncation from concatenation $(y=z)\to(x=y)\to(x=z)$.
   We call this the \emph{fundamental pregroupoid} of $X$.
 \end{eg}
 
 \begin{eg}\label{ct:hoprecat}
-  There is a precategory whose type of objects is \type and with $\hom(X,Y) \defeq \pizero{X\to Y}$, and composition defined by induction on truncation from ordinary composition $(Y\to Z) \to (X\to Y) \to (X\to Z)$.
+  There is a precategory whose type of objects is \type and with $\hom(X,Y) \defeq \pizero{X\to Y}$.
+  % , and composition defined by induction on truncation from ordinary composition $(Y\to Z) \to (X\to Y) \to (X\to Z)$.
   We call this the \emph{homotopy precategory of types}.
 \end{eg}
 
-\begin{eg}\label{ct:rel}
-  Let \urel be the following precategory:
-  \begin{itemize}
-  \item Its objects are sets.
-  \item $\hom_{\urel}(X,Y) = X\to Y\to \prop$.
-  \item For a set $X$, we have $1_X(x,x') \defeq (x=x')$.
-  \item For $R:\hom_{\urel}(X,Y)$ and $S:\hom_{\urel}(Y,Z)$, their composite is defined by
-    \[ (S\circ R)(x,z) \defeq \Brck{\sm{y:Y} R(x,y) \times S(y,z)}.\]
-  \end{itemize}
-  Suppose $R:\hom_{\urel}(X,Y)$ is an isomorphism, with inverse $S$.
-  We observe the following.
-  \begin{enumerate}
-  \item If $R(x,y)$ and $S(y',x)$, then $(R\circ S)(y',y)$, and hence $y'=y$.
-    Similarly, if $R(x,y)$ and $S(y,x')$, then $x=x'$.\label{item:rel1}
-  \item For any $x$, we have $x=x$, hence $(S\circ R)(x,x)$.
-    Thus, there merely exists a $y:Y$ such that $R(x,y)$ and $S(y,x)$.\label{item:rel2}
-  \item Suppose $R(x,y)$.
-    By~\ref{item:rel2}, there merely exists a $y'$ with $R(x,y')$ and $S(y',x)$.
-    But then by~\ref{item:rel1}, merely $y'=y$, and hence $y'=y$ since $Y$ is a set.
-    Therefore, by transporting $S(y',x)$ along this equality, we have $S(y,x)$.
-    In conclusion, $R(x,y)\to S(y,x)$.
-    Similarly, $S(y,x) \to R(x,y)$.\label{item:rel3}
-  \item If $R(x,y)$ and $R(x,y')$, then by~\ref{item:rel3}, $S(y',x)$, so that by~\ref{item:rel1}, $y=y'$.
-    Thus, for any $x$ there is at most one $y$ such that $R(x,y)$.
-    And by~\ref{item:rel2}, there merely exists such a $y$, hence there exists such a $y$.
-  \end{enumerate}
-  In conclusion, if $R:\hom_{\urel}(X,Y)$ is an isomorphism, then for each $x:X$ there is exactly one $y:Y$ such that $R(x,y)$, and dually.
-  Thus, there is a function $f:X\to Y$ sending each $x$ to this $y$, which is an equivalence; hence $X=Y$.
-  With a little more work, we conclude that \urel is a category.
-\end{eg}
+% \begin{eg}\label{ct:rel}
+%   Let \urel be the following precategory:
+%   \begin{itemize}
+%   \item Its objects are sets.
+%   \item $\hom_{\urel}(X,Y) = X\to Y\to \prop$.
+%   \item For a set $X$, we have $1_X(x,x') \defeq (x=x')$.
+%   \item For $R:\hom_{\urel}(X,Y)$ and $S:\hom_{\urel}(Y,Z)$, their composite is defined by
+%     \[ (S\circ R)(x,z) \defeq \Brck{\sm{y:Y} R(x,y) \times S(y,z)}.\]
+%   \end{itemize}
+%   Suppose $R:\hom_{\urel}(X,Y)$ is an isomorphism, with inverse $S$.
+%   We observe the following.
+%   \begin{enumerate}
+%   \item If $R(x,y)$ and $S(y',x)$, then $(R\circ S)(y',y)$, and hence $y'=y$.
+%     Similarly, if $R(x,y)$ and $S(y,x')$, then $x=x'$.\label{item:rel1}
+%   \item For any $x$, we have $x=x$, hence $(S\circ R)(x,x)$.
+%     Thus, there merely exists a $y:Y$ such that $R(x,y)$ and $S(y,x)$.\label{item:rel2}
+%   \item Suppose $R(x,y)$.
+%     By~\ref{item:rel2}, there merely exists a $y'$ with $R(x,y')$ and $S(y',x)$.
+%     But then by~\ref{item:rel1}, merely $y'=y$, and hence $y'=y$ since $Y$ is a set.
+%     Therefore, by transporting $S(y',x)$ along this equality, we have $S(y,x)$.
+%     In conclusion, $R(x,y)\to S(y,x)$.
+%     Similarly, $S(y,x) \to R(x,y)$.\label{item:rel3}
+%   \item If $R(x,y)$ and $R(x,y')$, then by~\ref{item:rel3}, $S(y',x)$, so that by~\ref{item:rel1}, $y=y'$.
+%     Thus, for any $x$ there is at most one $y$ such that $R(x,y)$.
+%     And by~\ref{item:rel2}, there merely exists such a $y$, hence there exists such a $y$.
+%   \end{enumerate}
+%   In conclusion, if $R:\hom_{\urel}(X,Y)$ is an isomorphism, then for each $x:X$ there is exactly one $y:Y$ such that $R(x,y)$, and dually.
+%   Thus, there is a function $f:X\to Y$ sending each $x$ to this $y$, which is an equivalence; hence $X=Y$.
+%   With a little more work, we conclude that \urel is a category.
+% \end{eg}
 
-In a textbook on category theory written for readers who had grown up with informal homotopy type theory, we would probably say very little about precategories from now on, restricting ourselves to the case of categories.
-However, since this book has a somewhat different purpose and audience, we will develop many concepts for precategories as well as categories, in order to emphasize how much better-behaved categories are, as compared both to precategories and to ordinary categories in classical mathematics.
+% In a textbook on category theory written for readers who had grown up with informal homotopy type theory, we would probably say very little about precategories from now on, restricting ourselves to the case of categories.
+% However, since this book has a somewhat different purpose and audience, we will develop many concepts for precategories as well as categories, in order to emphasize how much better-behaved categories are, as compared both to precategories and to ordinary categories in classical mathematics.
 
-We will also see in \S\ref{sec:strict-categories}--\ref{sec:dagger-categories} that in slightly more exotic contexts, there are uses for certain kinds of precategories other than categories, each of which ``fixes'' the equality of objects in different ways.
-This emphasizes the ``pre''-ness of precategories: they are the raw material out of which multiple important categorical structures can be defined.
+% We will also see in \S\ref{sec:strict-categories}--\ref{sec:dagger-categories} that in slightly more exotic contexts, there are uses for certain kinds of precategories other than categories, each of which ``fixes'' the equality of objects in different ways.
+% This emphasizes the ``pre''-ness of precategories: they are the raw material out of which multiple important categorical structures can be defined.
 
 
 \section{Functors and transformations}
@@ -526,8 +579,8 @@ Note that by induction on identity, a functor also preserves \idtoiso.
 \begin{defn}\label{ct:nattrans}
   For functors $F,G:A\to B$, a \textbf{natural transformation} $\gamma:F\to G$ consists of
   \begin{enumerate}
-  \item For each $a:A$, a morphism $\gamma_a:\hom_B(Fa,Ga)$ (the ``components'').
-  \item For each $a,b:A$ and $f:\hom_A(a,b)$, we have $\id{Gf\circ \gamma_a}{\gamma_b\circ Ff}$ (the ``naturality axiom'').
+  \item For each $a:A$, a morphism $\gamma_a:\hom_B(Fa,Ga)$.
+  \item For each $a,b:A$ and $f:\hom_A(a,b)$, we have $\id{Gf\circ \gamma_a}{\gamma_b\circ Ff}$.
   \end{enumerate}
 \end{defn}
 
@@ -598,7 +651,7 @@ The following result is fundamental.
   \[(F\cong G)\to  (\id F G) \to (F\cong G). \]
   Since identity of natural transformations can be tested componentwise, it suffices to show that for each $a$ we have $\id{\idtoiso(\bar\gamma)_a}{\gamma_a}$.
   But as observed above, we have $\id{\idtoiso(\bar\gamma)_a}{\idtoiso((\bar\gamma)_a)}$, while $\id{(\bar\gamma)_a}{\isotoid(\gamma_a)}$ by computation for function extensionality.
-  Since $\isotoid$ and $\idtoiso$ are inverses, we have $\id{\idtoiso(\bar\gamma)_a}{\gamma_a}$ as desired.
+  Since $\isotoid$ and $\idtoiso$ are inverses, we have $\id{\idtoiso(\bar\gamma)_a}{\gamma_a}$.
 \end{proof}
 
 In particular, naturally isomorphic functors between categories (as opposed to precategories) are equal.
@@ -683,11 +736,13 @@ We have a similar coherence result for units.
   \]
 \end{lem}
 
-If we went on to develop higher category theory, we could show that categories, functors, and natural transformations form a 2-category (and not merely a bicategory or a pre-2-category).
+% If we went on to develop higher category theory, we could show that categories, functors, and natural transformations form a 2-category (and not merely a bicategory or a pre-2-category).
 
 
 \section{Adjunctions}
 \label{sec:adjunctions}
+
+We take as our first definition of adjunction the purely diagrammatic one in terms of a unit and counit natural transformation.
 
 \begin{defn}\label{def:adjoint}
   A functor $F:A\to B$ is a \textbf{left adjoint} if there exists
@@ -732,25 +787,32 @@ If we went on to develop higher category theory, we could show that categories, 
   Finally, the triangle identities transport correctly automatically, since hom-sets are sets.
 \end{proof}
 
-In \S\ref{sec:yoneda} we will give another proof of \autoref{ct:adjprop}.
+In \S\ref{sec:yoneda} we will mention another possible proof of \autoref{ct:adjprop}.
 
 
 \section{Equivalences}
 \label{sec:equivalences}
+
+It is usual to define an equivalence of categories to be a functor $F:A\to B$ for which there exists a functor $G:B\to A$ and natural isomorphisms $F\circ G \cong 1_B$ and $G\circ F \cong 1_A$.
+However, because of the ``proof-relevant'' or ``constructive'' nature of ``there exists'' (dependent sum types) in UF, this definition does not produce a well-behaved \emph{type of equivalences} between two categories.
+The solution is not surprising to a category theorist: whenever equivalences are ill-behaved, it usually suffices to consider \emph{adjoint} equivalences instead.
+(This is exactly the same problem and solution as is encountered in the definition of equivalence of \emph{types} in UF.)
 
 \begin{defn}
   A functor $F:A\to B$ is an \textbf{equivalence of (pre)categories} if it is a left adjoint for which $\eta$ and $\epsilon$ are isomorphisms.
   We write $A\simeq B$ for the type of equivalences of categories from $A$ to $B$.
 \end{defn}
 
-By \autoref{ct:adjprop} and \autoref{ct:isoprop}, if $A$ is a category, then the type ``$F$ is an equivalence of precategories'' is a mere proposition.
+By \autoref{ct:adjprop} and \autoref{ct:isoprop}, if $A$ is a category, then the type ``$F:A\to B$ is an equivalence of precategories'' is a mere proposition.
 
 \begin{lem}\label{ct:adjointification}
   If for $F:A\to B$ there exists $G:B\to A$ and isomorphisms $GF\cong 1_A$ and $FG\cong 1_B$, then $F$ is an equivalence of precategories.
 \end{lem}
 \begin{proof}
-  Just like the ``adjointification'' theorem for equivalences of types.
+  We can repeat the standard proof that any equivalence of categories gives rise to an adjoint equivalence.  [To be consistent with the rest of the paper, we should probably give more detail.]
 \end{proof}
+
+We now investigate some alternative definitions of equivalences of categories.
 
 \begin{defn}
   We say a functor $F:A\to B$ is \textbf{faithful} if for all $a,b:A$, the function
@@ -762,6 +824,9 @@ By \autoref{ct:adjprop} and \autoref{ct:isoprop}, if $A$ is a category, then the
 \begin{defn}
   We say a functor $F:A\to B$ is \textbf{split essentially surjective} if for all $b:B$ there exists an $a:A$ such that $Fa\cong b$.
 \end{defn}
+
+The reason for the adjective \emph{split} is that because of the strong type-theoretic meaning of ``there exists'', such a functor comes with a function assigning a specified $a$ for every $b$.
+This has the following advantage.
 
 \begin{lem}\label{ct:ffeso}
   For any precategories $A$ and $B$ and functor $F:A\to B$, the following types are equivalent.
@@ -817,19 +882,20 @@ By \autoref{ct:adjprop} and \autoref{ct:isoprop}, if $A$ is a category, then the
 \end{proof}
 
 However, if $B$ is not a category, then neither type in \autoref{ct:ffeso} may necessarily be a mere proposition.
-This suggests considering as well the following notions.
+Moreover, classically, we consider a different notion of ``essentially surjective'' according to which the witnesses are not specified in a determinate way.
+In UF, the appropriate version of this definition is the following.
 
 \begin{defn}
   A functor $F:A\to B$ is \textbf{essentially surjective} if for all $b:B$, there \emph{merely} exists an $a:A$ such that $Fa\cong b$.
   We say $F$ is a \textbf{weak equivalence} if it is fully faithful and essentially surjective.
 \end{defn}
 
-Being a weak equivalence is \emph{always} a mere proposition.
+Being a weak equivalence is \emph{always} a mere proposition, since a function being an equivalence of types is such, and the propositional truncation is so by definition.
 For categories, however, there is no difference between equivalences and weak ones.
 
 \begin{lem}\label{ct:catweq}
   If $F:A\to B$ is fully faithful and $A$ is a category, then for any $b:B$ the type $\sm{a:A} (Fa\cong b)$ is a mere proposition.
-  Hence a functor between categories is an equivalence if and only if it is a weak equivalence.
+  Hence if $A$ and $B$ are categories, then the types ``$F$ is an equivalence'' and ``$F$ is a weak equivalence'' are equivalent (and mere propositions).
 \end{lem}
 \begin{proof}
   Suppose given $(a,f)$ and $(a',f')$ in $\sm{a:A} (Fa\cong b)$.
@@ -842,9 +908,9 @@ For categories, however, there is no difference between equivalences and weak on
 \end{proof}
 
 This is an important advantage of our category theory over set-based approaches.
-With a purely set-based definition of category, the statement ``every fully faithful and essentially surjective functor is an equivalence of categories'' is equivalent to the mere axiom of choice (that is, the strong one, not the trivial one).
+As remarked in the introduction, with a purely set-based definition of category, the statement ``every fully faithful and essentially surjective functor is an equivalence of categories'' is equivalent to the mere axiom of choice.
 Here we have it for free, as a category-theoretic version of the function comprehension principle.
-(In fact, this property characterizes categories among precategories; see \S\ref{sec:rezk}.)
+We will see in \S\ref{sec:rezk} that this property moreover characterizes categories among precategories.
 
 On the other hand, the following characterization of equivalences of categories is perhaps even more useful.
 
@@ -852,11 +918,11 @@ On the other hand, the following characterization of equivalences of categories 
   A functor $F:A\to B$ is an \textbf{isomorphism of (pre)categories} if $F$ is fully faithful and $F_0:A_0\to B_0$ is an equivalence of types.
 \end{defn}
 
-Note that being an isomorphism of precategories is always a mere property.
+Note that being an isomorphism of precategories is always a mere proposition.
 Let $A\cong B$ denote the type of isomorphisms of (pre)categories from $A$ to $B$.
 
 \begin{lem}\label{ct:isoprecat}
-  For precategories $A$ and $B$ and $F:A\to B$, the following are equivalent.
+  For precategories $A$ and $B$ and $F:A\to B$, the following types are equivalent.
   \begin{enumerate}
   \item $F$ is an isomorphism of precategories.\label{item:ct:ipc1}
   \item There exist $G:B\to A$ and $\eta:1_A = GF$ and $\epsilon:FG=1_B$ such that\label{item:ct:ipc2}
@@ -972,7 +1038,7 @@ For precategories, the converse can fail.
   Of course, if a precategory is \emph{isomorphic} to a category, then it must itself be a category.
 \end{eg}
 
-However, for categories, the two notions coincide.
+However, for categories, the notions of equivalence and isomorphism coincide.
 
 \begin{lem}\label{ct:eqv-levelwise}
   For categories $A$ and $B$, a functor $F:A\to B$ is an equivalence of categories if and only if it is an isomorphism of categories.
@@ -1018,7 +1084,7 @@ However, the univalence axiom implies that it coincides with isomorphism.
 \end{proof}
 
 Thus, for categories, equality also coincides with equivalence.
-We can interpret this as saying that categories, functors, and natural transformations form, not just a pre-2-category, but a 2-category.
+We can interpret this as saying that categories, functors, and natural transformations form, not just a ``pre-2-category'', but a 2-category.
 
 \begin{thm}\label{ct:cat-2cat}
   If $A$ and $B$ are categories, then the function
@@ -1036,7 +1102,7 @@ For since $A\simeq B$ is a subtype of the type of functors from $A$ to $B$, whic
 \section{The Yoneda lemma}
 \label{sec:yoneda}
 
-Recall that we have a category \uset whose objects are sets and whose morphisms are functions.
+Recall that we have a category \uset whose objects are sets (in some unspecified universe) and whose morphisms are functions.
 We now show that every precategory has a \uset-valued hom-functor.
 First we need to define opposites and products of (pre)categories.
 
@@ -1160,7 +1226,7 @@ We could use this to give a different proof of \autoref{ct:adjprop} by character
 In this section we will give a universal way to replace a precategory by a category.
 It relies on the fact that ``categories see weak equivalences as equivalences''.
 
-To prove this, we begin with a couple of lemmas which are completely standard category theory, phrased carefully so as to make sure we are using the eliminator for $\truncf{-1}$ correctly.
+To prove this, we begin with a couple of lemmas which are completely standard category theory, phrased carefully so as to make sure we are using the eliminator for the propositional truncation correctly.
 One would have to be similarly careful in classical category theory if one wanted to avoid the axiom of choice: any time we want to define a function, we need to characterize its values uniquely somehow.
 
 \begin{lem}\label{lem:precomp-faithful}
@@ -1314,14 +1380,15 @@ In univalent foundations, however, if $C$ is a category, then isomorphism is equ
   Hence, we have $GH=F$, and thus $GH\cong F$ as desired.
 \end{proof}
 
-Therefore, if a precategory $A$ admits a weak equivalence functor $A\to \widehat{A}$, then that is its ``reflection'' into categories: any functor from $A$ into a category will factor essentially uniquely through $\widehat{A}$.
+Therefore, if a precategory $A$ admits a weak equivalence functor $A\to \widehat{A}$ where $\widehat{A}$ is a category, then that is its ``reflection'' into categories: any functor from $A$ into a category will factor essentially uniquely through $\widehat{A}$.
 We now construct such a weak equivalence.
 
 \begin{thm}\label{thm:rezk-completion}
   For any precategory $A$, there is a category $\widehat A$ and a weak equivalence $A\to\widehat{A}$.
 \end{thm}
 \begin{proof}
-  Let $\widehat{A}_0 \defeq \setof{ F:\uset^{A\op} | \Brck{\sm{a:A} (\y a \cong F)}}$, with hom-sets inherited from $\uset^{A\op}$.
+  Let $\widehat{A}_0 \defeq \setof{ F:\uset^{A\op} | \bbrck{\sm{a:A} (\y a \cong F)}}$, with hom-sets inherited from $\uset^{A\op}$.
+  In other words, $\widehat{A}$ is the full subcategory of $\uset^{A\op}$ determined by the functors that are \emph{merely representable}.
   Then the inclusion $\widehat{A} \to \uset^{A\op}$ is fully faithful and a monomorphism on objects.
   Since $\uset^{A\op}$ is a category (by \autoref{ct:functor-cat}, since \uset is so by univalence), $\widehat A$ is also a category.
 
@@ -1334,10 +1401,10 @@ We now construct such a weak equivalence.
   Our proof does have the drawback that it increases universe level.
   Namely, if $A$ is a category in a universe \bbU, then in this proof \uset must be at least as large as $\uset_\bbU$.
   Then $\uset_\bbU$ and $(\uset_\bbU)^{A\op}$ are not themselves categories in \bbU, but only in a higher universe, and \emph{a priori} the same is true of $\widehat A$.
-  One could imagine a resizing axiom that could deal with this, but it is also possible to give a direct construction using higher inductive types.
+  One could imagine a ``resizing axiom'' that could deal with this, but it is also possible to give a direct construction using higher inductive types.
 \end{rmk}
 
-We call the construction $A\mapsto \widehat A$ the \textbf{Rezk completion}, although there is also an argument (coming from higher topos semantics) for calling it the \textbf{stack completion}.
+We call the construction $A\mapsto \widehat A$ the \textbf{Rezk completion}, although as we will see in \S\ref{sec:semantics}, there is also an argument for calling it the \textbf{stack completion}.
 
 We have seen that most precategories arising in practice are categories, since they are constructed from \uset, which is a category by the univalence axiom.
 However, there are a few cases in which the Rezk completion is necessary to obtain a category.
@@ -1345,16 +1412,16 @@ However, there are a few cases in which the Rezk completion is necessary to obta
 \begin{eg}
   Recall from \autoref{ct:fundgpd} that for any type $X$ there is a pregroupoid with $X$ as its type of objects and $\hom(x,y) \defeq \pizero{x=y}$.
   Its Rezk completion is the \emph{fundamental groupoid} of $X$.
-  Recalling that groupoids are equivalent to 1-types, it is not hard to identify this groupoid with $\trunc1X$.
+  Under the equivalence between groupoids and 1-types, we can identify this groupoid with the 1-truncation $\trunc1X$.
 \end{eg}
 
 \begin{eg}\label{ct:hocat}
   Recall from \autoref{ct:hoprecat} that there is a precategory whose type of objects is \type and with $\hom(X,Y) \defeq \pizero{X\to Y}$.
   Its Rezk completion may be called the \emph{homotopy category of types}.
-  Its type of objects can be identified with $\trunc1\type$.
+  Its type of objects can be identified with the 1-truncation of the universe, $\trunc1\type$.
 \end{eg}
 
-The Rezk completion also allows us to show that the notion of ``category'' is determined by the notion of ``weak equivalence of precategories''.
+Finally, the Rezk completion allows us to show that the notion of ``category'' is determined by the notion of ``weak equivalence of precategories''.
 Thus, insofar as the latter is inevitable, so is the former.
 
 \begin{thm}
