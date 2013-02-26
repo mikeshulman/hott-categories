@@ -298,7 +298,7 @@ With the connection to Rezk's complete Segal spaces in mind, we call the saturat
 However, with higher topos semantics in mind, it could also reasonably be called the \emph{stack completion}: a strict category in the internal type theory of a higher topos corresponds to an internal category in the 1-topos of sheaves, and its Rezk completion is more or less exactly the stack completion of such a thing.
 Our construction uses a Yoneda embedding as in~\cite{bunge:stacks-morita-internal} rather than a transfinite localization argument as in~\cite{jt:strong-stacks,rezk01css}, but it is also possible to mimic the latter more closely in type theory using ``higher inductive types''~\cite{ls:hits}.
 
-The existence of the Rezk completion also sheds further light on the notion of equivalence of categories.
+The Rezk completion also sheds further light on the notion of equivalence of categories.
 For instance, the functor $A \to \widehat{A}$ is always fully faithful and essentially surjective, hence a ``weak equivalence''.
 It follows that a precategory is a saturated category exactly when it ``sees'' all fully faithful and essentially surjective functors as equivalences.
 (The analogous facts for complete Segal spaces and stacks are well-known.)
@@ -319,7 +319,7 @@ In \S\ref{sec:background} we recall some definitions from Univalent Foundations.
 Then in \S\S\ref{sec:cats}--\ref{sec:yoneda} we develop the basic theory of precategories and saturated categories informally, working entirely inside of univalent foundations.
 We define functors, natural transformations, adjunctions, equivalences, and prove the Yoneda lemma.
 We also show that equivalent categories are equal.
-In \S\ref{sec:rezk} we construct the Rezk completion which, as described above, saturates any precategory in a universal way.
+In \S\ref{sec:rezk} we construct the Rezk completion which, as described above, universally saturates any precategory.
 
 Finally, \S\ref{sec:formalization} describes the content of our formalization, the organization of the source files, and the differences between informal presentation and its formal analog.
 The actual Coq code is available as a supplement to this paper.
@@ -328,7 +328,11 @@ The actual Coq code is available as a supplement to this paper.
 
 % \dots [conclusion] \dots
 
-\subsection*{Acknowledgements} First and foremost we would like to thank Vladimir Voevodsky for \ldots [possibly infinite list of things] \ldots [but grant support was also really helpful] \ldots
+\subsection*{Acknowledgements}
+First and foremost, we would like to thank Vladimir Voevodsky for initiating the project of Univalent Foundations and for much assistance.
+We are also very grateful to the organizers of the special year at the Institite for Advanced Study in 2012--2013, where much of this work was done.
+The third author was supported by NSF grant DMS-1128155.
+Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation.
 
 
 \section{Review of univalent foundations}
@@ -1487,7 +1491,7 @@ We have presented a new foundation for category theory, based on the general sys
 \end{itemize}
 One obvious direction for future work is to push forward the development of basic category theory in this system.
 Another is to move on to \emph{higher} category theory: a theory of pre-2-categories and saturated 2-categories, at least, should be within reach.
-Ideally, we would like a full theory of $(\infty,1)$-categories, but there are obstacles to formalizing such infinite towers of structures in currently available type theories.
+Ideally, we would like a full theory of $(\infty,1)$-categories, but there are obstacles to formalizing such infinite structures in currently available type theories.
 
 
 \bibliographystyle{alpha}
