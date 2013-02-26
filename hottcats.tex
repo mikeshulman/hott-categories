@@ -239,11 +239,12 @@
 
 Of the branches of mathematics, category theory is one which perhaps fits the least comfortably into existing ``foundations of mathematics''.
 This is true both at an informal level, and when trying to be completely formal using a computer proof assistant.
-One problem is that category theory would like to use constructions such as ``the category of all sets'', which naively conceived, run afoul of Russellian paradoxes and have to be reinterpreted using universe levels.
-Another is that most of category theory is invariant under weaker notions of ``sameness'' than equality, such as isomorphism in a category or equivalence of categories, in a way which traditional foundations (such as set theory) fail to capture.
-\marginpar{Are there other problems specific to formalization?}
+One problem is that naive category theory tends to run afoul of Russellian paradoxes and has to be reinterpreted using universe levels; we will not have much to say about this.
+But another problem is that most of category theory is invariant under weaker notions of ``sameness'' than equality, such as isomorphism in a category or equivalence of categories, in a way which traditional foundations (such as set theory) fail to capture.
+This problem becomes especially important when formalizing category theory in a computer proof assistant.
+%\marginpar{Are there other problems specific to formalization?}
 
-Our aim in this paper is to show that these problems can be ameliorated using the new \emph{univalent foundations} of mathematics, a.k.a.\ \emph{homotopy type theory}, proposed by V.~Voevodsky \cite{vv_uf}.
+Our aim in this paper is to show that this problem can be ameliorated using the new \emph{univalent foundations} of mathematics, a.k.a.\ \emph{homotopy type theory}, proposed by V.~Voevodsky \cite{vv_uf}.
 It builds on the existing system of dependent type theory [reference], a logical system that is feasible for large-scale formalization of mathematics [references] and also for internal categorical logic.
 The distinctive feature of Univalent Foundations is its treatment of equality inspired by homotopy-theoretic semantics [references].
 Using this interpretation, Voevodsky has extended dependent type theory with an additional axiom, called the \emph{Univalence Axiom}, which was originally suggested by the interpretation of the theory in the category of simplicial sets~\cite{klv:ssetmodel}, and should also be valid in other homotopical interpretations such as categories of higher stacks.
@@ -265,7 +266,8 @@ Following Toby Bartels, we call this notion a \emph{strict category}.
 
 However, a (usually) better option is to require a generalized version of the univalence axiom, identifying the \emph{identity type} $(x=_{\mathsf{Obj}} y)$ between two objects with the type $\mathsf{iso}(x,y)$ of \emph{isomorphisms} from $x$ to $y$.
 (In particular, this implies that each type $(x=_{\mathsf{Obj}} y)$ is a set, and that therefore the type of objects is a \emph{1-type}, containing no higher homotopy above dimension 1.)
-We consider this to be the ``correct'' definition of \emph{category} in univalent foundations; for emphasis we may call it a \emph{saturated} or \emph{univalent} category.
+We consider this to be the ``correct'' definition of \emph{category} in univalent foundations, since it automatically implies that anything we say about objects of a category is invariant under isomorphism.
+For emphasis, we may call such a category a \emph{saturated} or \emph{univalent} category.
 
 Most categories encountered in practice are saturated, at least in the presence of the univalence axiom.
 Those which are not saturated, such as the homotopy category of $n$-types for $n\ge 1$, tend to behave much worse than the saturated ones.
@@ -330,7 +332,7 @@ The actual Coq code is available as a supplement to this paper.
 
 
 \section{Review of univalent foundations}
-\label{sec:uf}
+\label{sec:background}
 
 Most of this paper is written in an informal style, with the intent of describing mathematics that could be formalized in Univalent Foundations, analogously to the way that traditional mathematics is discussed informally but is generally accepted to be formalizable in set theory.
 We do not have space to give an introduction to UF here; instead we refer the reader to~\cite{pelayo-warren:univalent-foundations-paper}.
@@ -576,6 +578,11 @@ and so on.
 
 % We will also see in \S\ref{sec:strict-categories}--\ref{sec:dagger-categories} that in slightly more exotic contexts, there are uses for certain kinds of precategories other than categories, each of which ``fixes'' the equality of objects in different ways.
 % This emphasizes the ``pre''-ness of precategories: they are the raw material out of which multiple important categorical structures can be defined.
+
+\begin{rmk}\label{defn:strict}
+  As suggested in the introduction, if a precategory has the property that its type $A_0$ of objects is a \emph{set}, we call it a \textbf{strict category}.
+  We will not have much to say about strict categories in this paper, however.
+\end{rmk}
 
 
 \section{Functors and transformations}
@@ -1123,8 +1130,11 @@ For since $A\simeq B$ is a subtype of the type of functors from $A$ to $B$, whic
 \section{The Yoneda lemma}
 \label{sec:yoneda}
 
-Recall that we have a category \uset whose objects are sets (in some unspecified universe) and whose morphisms are functions.
-We now show that every precategory has a \uset-valued hom-functor.
+In this section we fix a particular universe \type, and write \set for the type of sets in that universe and \uset for the category whose objects are sets in that universe and whose morphisms are functions between them.
+Of course, \set and \uset do not themselves lie in the universe \type, but rather in some higher universe.
+
+Define a precategory to be \emph{locally small} if its hom-sets lie in our fixed universe \type.
+We now show that every locally small precategory has a \uset-valued hom-functor.
 First we need to define opposites and products of (pre)categories.
 
 \begin{defn}
@@ -1163,7 +1173,7 @@ First we need to define opposites and products of (pre)categories.
   Finally, it is also clear that these operations are inverses.
 \end{proof}
 
-Now for any precategory $A$, we have a hom-functor
+Now for any locally small precategory $A$, we have a hom-functor
 \[\hom_A : A\op \times A \to \uset.\]
 It takes a pair $(a,b): (A\op)_0 \times A_0 \jdeq A_0 \times A_0$ to the set $\hom_A(a,b)$.
 For a morphism $(f,f') : \hom_{A\op\times A}((a,b),(a',b'))$, by definition we have $f:\hom_A(a',a)$ and $f':\hom_A(b,b')$, so we can define
@@ -1175,9 +1185,10 @@ For a morphism $(f,f') : \hom_{A\op\times A}((a,b),(a',b'))$, by definition we h
 Functoriality is easy to check.
 
 By \autoref{ct:functorexpadj}, therefore, we have an induced functor $\y:A\to \uset^{A\op}$, which we call the \textbf{Yoneda embedding}.
+As usual, of course, $\uset^{A\op}$ may not be locally small unless $A$ is small (i.e.\ unless $A_0$ lies in our fixed universe \type).
 
 \begin{thm}[The Yoneda lemma]\label{ct:yoneda}
-  For any precategory $A$, any $a:A$, and any functor $F:\uset^{A\op}$, we have an isomorphism
+  For any locally small precategory $A$, any $a:A$, and any functor $F:\uset^{A\op}$, we have an isomorphism
   \begin{equation}\label{eq:yoneda}
     \hom_{\uset^{A\op}}(\y a, F) \cong Fa.
   \end{equation}
@@ -1247,7 +1258,7 @@ We could use this to give a different proof of \autoref{ct:adjprop} by character
 In this section we will give a universal way to replace a precategory by a category.
 It relies on the fact that ``categories see weak equivalences as equivalences''.
 
-To prove this, we begin with a couple of lemmas which are completely standard category theory, phrased carefully so as to make sure we are using the eliminator for the propositional truncation correctly.
+To prove this latter fact, we begin with a couple of lemmas which are completely standard category theory, phrased carefully so as to make sure we are using the eliminator for the propositional truncation correctly.
 One would have to be similarly careful in classical category theory if one wanted to avoid the axiom of choice: any time we want to define a function, we need to characterize its values uniquely somehow.
 
 \begin{lem}\label{lem:precomp-faithful}
@@ -1408,10 +1419,11 @@ We now construct such a weak equivalence.
   For any precategory $A$, there is a category $\widehat A$ and a weak equivalence $A\to\widehat{A}$.
 \end{thm}
 \begin{proof}
-  Let $\widehat{A}_0 \defeq \setof{ F:\uset^{A\op} | \bbrck{\sm{a:A} (\y a \cong F)}}$, with hom-sets inherited from $\uset^{A\op}$.
+  The hom-sets of $A$ must lie in some universe \type, so that $A$ is locally small with respect to that universe.
+  Write \uset for the category of sets in \type, and let $\widehat{A}_0 \defeq \setof{ F:\uset^{A\op} | \bbrck{\sm{a:A} (\y a \cong F)}}$, with hom-sets inherited from $\uset^{A\op}$.
   In other words, $\widehat{A}$ is the full subcategory of $\uset^{A\op}$ determined by the functors that are \emph{merely representable}.
   Then the inclusion $\widehat{A} \to \uset^{A\op}$ is fully faithful and a monomorphism on objects.
-  Since $\uset^{A\op}$ is a category (by \autoref{ct:functor-cat}, since \uset is so by univalence), $\widehat A$ is also a category.
+  Since $\uset^{A\op}$ is a category (by \autoref{ct:functor-cat}, since \uset is a category by univalence), $\widehat A$ is also a category.
 
   Let $A\to\widehat A$ be the Yoneda embedding.
   This is fully faithful by \autoref{ct:yoneda-embedding}, and essentially surjective by definition of $\widehat{A}_0$.
@@ -1419,13 +1431,12 @@ We now construct such a weak equivalence.
 \end{proof}
 
 \begin{rmk}
-  Our proof does have the drawback that it increases universe level.
-  Namely, if $A$ is a category in a universe \bbU, then in this proof \uset must be at least as large as $\uset_\bbU$.
-  Then $\uset_\bbU$ and $(\uset_\bbU)^{A\op}$ are not themselves categories in \bbU, but only in a higher universe, and \emph{a priori} the same is true of $\widehat A$.
-  One could imagine a ``resizing axiom'' that could deal with this, but it is also possible to give a direct construction using higher inductive types.
+  Note, however, that even if $A$ itself is a ``small category'' with respect to some universe \type (that is, both $A_0$ and all its hom-sets lie in \type), then $\widehat A$ as we have constructed it will lie in the next higher universe.
+  One could imagine a ``resizing axiom'' that could deal with this.
+  It is also possible to give a direct construction of $\widehat A$ using higher inductive types, which leaves its universe level unchanged.
 \end{rmk}
 
-We call the construction $A\mapsto \widehat A$ the \textbf{Rezk completion}, although as we will see in \S\ref{sec:semantics}, there is also an argument for calling it the \textbf{stack completion}.
+We call the construction $A\mapsto \widehat A$ the \textbf{Rezk completion}, although as mentioned in the introduction, there is also an argument for calling it the \textbf{stack completion}.
 
 We have seen that most precategories arising in practice are categories, since they are constructed from \uset, which is a category by the univalence axiom.
 However, there are a few cases in which the Rezk completion is necessary to obtain a category.
@@ -1462,9 +1473,21 @@ Thus, insofar as the latter is inevitable, so is the former.
 
 %\input{semantics}
 
-\section{Conclusion}
+\section{Conclusions and further work}
 \label{sec:conclusion}
 
+We have presented a new foundation for category theory, based on the general system of Univalent Foundations, with the following advantages:
+\begin{itemize}
+\item All category-theoretic constructions and proofs are automatically invariant under isomorphism of objects and under equivalence of categories (when performed with saturated categories).
+\item In the rare case when we want to treat categories less invariantly, there is a separate notion available to use (strict categories).
+  This allows both approaches to category theory to coexist simultaneously, with a type distinction making clear which one we are using at any given time.
+\item There is a universal way to make a strict category (or, more generally, a precategory) into a saturated category, thereby passing to the invariant world in a very precise way.
+  In higher-topos-theoretic semantics, this operation corresponds to the natural and well-known notion of stack completion.
+\item The basic theory has all been formalized in a computer proof assistant.
+\end{itemize}
+One obvious direction for future work is to push forward the development of basic category theory in this system.
+Another is to move on to \emph{higher} category theory: a theory of pre-2-categories and saturated 2-categories, at least, should be within reach.
+Ideally, we would like a full theory of $(\infty,1)$-categories, but there are obstacles to formalizing such infinite towers of structures in currently available type theories.
 
 
 \bibliographystyle{alpha}
