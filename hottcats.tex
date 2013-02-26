@@ -237,17 +237,16 @@
 \section{Introduction}
 \label{sec:introduction}
 
-Of the branches of mathematics, category theory is one which fits the least comfortably into existing ``foundations of mathematics''.
+Of the branches of mathematics, category theory is one which perhaps fits the least comfortably into existing ``foundations of mathematics''.
 This is true both at an informal level, and when trying to be completely formal using a computer proof assistant.
 One problem is that category theory would like to use constructions such as ``the category of all sets'', which naively conceived, run afoul of Russellian paradoxes and have to be reinterpreted using universe levels.
 Another is that most of category theory is invariant under weaker notions of ``sameness'' than equality, such as isomorphism in a category or equivalence of categories, in a way which traditional foundations (such as set theory) fail to capture.
 \marginpar{Are there other problems specific to formalization?}
 
-Our aim in this paper is to show that these problems can be ameliorated using the new \emph{univalent foundations} of mathematics, a.k.a.\ \emph{homotopy type theory}.
-Univalent foundations is a new approach to foundations of mathematics, proposed by V.~Voevodsky \cite{vv_uf}.
+Our aim in this paper is to show that these problems can be ameliorated using the new \emph{univalent foundations} of mathematics, a.k.a.\ \emph{homotopy type theory}, proposed by V.~Voevodsky \cite{vv_uf}.
 It builds on the existing system of dependent type theory [reference], a logical system that is feasible for large-scale formalization of mathematics [references] and also for internal categorical logic.
 The distinctive feature of Univalent Foundations is its treatment of equality inspired by homotopy-theoretic semantics [references].
-Using this interpretation, Voevodsky has extended dependent type theory with an additional axiom, called the \emph{Univalence Axiom}, which was originally suggested by the interpretation of the theory in the category of simplicial sets [reference], and is also valid in other homotopical interpretations such as categories of higher stacks.
+Using this interpretation, Voevodsky has extended dependent type theory with an additional axiom, called the \emph{Univalence Axiom}, which was originally suggested by the interpretation of the theory in the category of simplicial sets~\cite{klv:ssetmodel}, and should also be valid in other homotopical interpretations such as categories of higher stacks.
 
 The univalence axiom identifies \emph{identity} of types with \emph{equivalence} of types.
 In particular, this implies that anything we can say about sets is automatically invariant under isomorphism, because isomorphism is identified with identity.
@@ -274,16 +273,16 @@ Thus, in the non-saturated and non-strict case, we use instead the slightly dero
 
 A good example of the difference between the three notions of category is provided by the statement ``every fully faithful and essentially surjective functor is an equivalence of categories'', which in classical set-based category theory is equivalent to the axiom of choice.
 \begin{enumerate}
-\item For strict categories, this statement is still equivalent to to the axiom of choice.
+\item For strict categories, this is still equivalent to to the axiom of choice.
 \item For precategories, there is no axiom of choice which can make it true.
 \item For saturated categories, it is provable \emph{without} any axiom of choice.\label{item:satnoac}
 \end{enumerate}
 Saturated categories have the additional advantage that they are ``univalent as objects'' as well.
 Specifically, just the way isomorphic objects \emph{in} a saturated category are equal, \emph{equivalent} saturated categories are themselves equal.
 
-When interpreted in Voevodsky's simplicial set model, our precategories are a truncated analogue of the \emph{Segal spaces} of Rezk~\cite[Sec.~14]{rezk01css}, while our saturated categories correspond to his \emph{complete Segal spaces}.
-Strict categories correspond instead to (a weakened and truncated version of) the \emph{Segal categories} of~[reference].
-It is known that Segal categories and complete Segal spaces are equivalent models for $(\infty,1)$-categories, so that in the simplicial set model, strict and saturated categories yield ``equivalent'' category theories---although as mentioned above, the saturated ones still have many advantages.
+When interpreted in Voevodsky's simplicial set model, our precategories are similar to a truncated analogue of the \emph{Segal spaces} of Rezk~\cite[Sec.~14]{rezk01css}, while our saturated categories correspond to his \emph{complete Segal spaces}.
+Strict categories correspond instead to (a weakened and truncated version of) \emph{Segal categories}.
+It is known that Segal categories and complete Segal spaces are equivalent models for $(\infty,1)$-categories (see e.g.~\cite{bergner:infty-one}), so that in the simplicial set model, strict and saturated categories yield ``equivalent'' category theories---although as mentioned above, the saturated ones still have many advantages.
 
 However, in the more general categorical semantics of a higher topos, a strict category corresponds to an internal category (in the traditional sense) in the corresponding 1-topos of sheaves, while a saturated category corresponds to a \emph{stack}.
 Internal categories are \emph{not} equivalent to stacks, and it is well-known that stacks are generally a more appropriate sort of ``category'' relative to a topos.
@@ -292,13 +291,15 @@ Besides developing the basic theory of precategories and saturated categories, o
 More precisely, we show that the obvious inclusion of saturated precategories into categories has a left adjoint, in the appropriate bicategorical sense.
 More concretely, from any precategory $A$, we construct a saturated category $\widehat{A}$, with a universal functor
 $A \to \widehat{A}$ (the unit of the adjunction).
-With the connection to Rezk's complete Segal spaces in mind, we call the ``saturation'' operation the \emph{Rezk completion}, although with higher topos semantics in mind it could also reasonably be called the \emph{stack completion}.
-Our construction uses a Yoneda embedding rather than a transfinite localization argument as in~\cite{rezk01css}, but it is also possible to mimic the latter more closely in type theory using ``higher inductive types''~\cite{ls:hits}.
+
+With the connection to Rezk's complete Segal spaces in mind, we call the saturation of a precategory its \emph{Rezk completion}.
+However, with higher topos semantics in mind, it could also reasonably be called the \emph{stack completion}: a strict category in the internal type theory of a higher topos corresponds to an internal category in the 1-topos of sheaves, and its Rezk completion is more or less exactly the stack completion of such a thing.
+Our construction uses a Yoneda embedding as in~\cite{bunge:stacks-morita-internal} rather than a transfinite localization argument as in~\cite{jt:strong-stacks,rezk01css}, but it is also possible to mimic the latter more closely in type theory using ``higher inductive types''~\cite{ls:hits}.
 
 The existence of the Rezk completion also sheds further light on the notion of equivalence of categories.
 For instance, the functor $A \to \widehat{A}$ is always fully faithful and essentially surjective, hence a ``weak equivalence''.
 It follows that a precategory is a saturated category exactly when it ``sees'' all fully faithful and essentially surjective functors as equivalences.
-(This matches the characterization of complete Segal spaces as a homotopical localization of Segal spaces.)
+(The analogous facts for complete Segal spaces and stacks are well-known.)
 In particular, the notion of saturated category is already inherent in the notion of ``fully faithful and essentially surjective functor''; saturated categories are \emph{precisely} the precategories for which~\ref{item:satnoac} above holds.
 
 Finally, as mentioned above, one of the virtues of Univalent Foundations (and type theory more generally) is the feasibility of formalizing it in a computer proof assistant.
@@ -318,12 +319,12 @@ We define functors, natural transformations, adjunctions, equivalences, and prov
 We also show that equivalent categories are equal.
 In \S\ref{sec:rezk} we construct the Rezk completion which, as described above, saturates any precategory in a universal way.
 
-Section \ref{sec:formalization} describes the content of our formalization, the organization of the source files, and the differences between informal presentation and its formal analog.
+Finally, \S\ref{sec:formalization} describes the content of our formalization, the organization of the source files, and the differences between informal presentation and its formal analog.
 The actual Coq code is available as a supplement to this paper.
 
-Finally, in \S\ref{sec:semantics} we briefly discuss the categorical semantics\dots [something about equipments, CSS, stacks]\dots
+% Finally, in \S\ref{sec:semantics} we briefly discuss the categorical semantics\dots [something about equipments, CSS, stacks]\dots
 
-\dots [conclusion] \dots
+% \dots [conclusion] \dots
 
 \subsection*{Acknowledgements} First and foremost we would like to thank Vladimir Voevodsky for \ldots [possibly infinite list of things] \ldots [but grant support was also really helpful] \ldots
 
@@ -341,35 +342,52 @@ For instance, a statement like ``for all $a:A$ we have $P(x)$'' indicates that w
 
 For $a,b:A$ there is an \emph{identity type} $a=b$, which in the homotopical semantics becomes a \emph{path type}.
 It has the universal property that we may prove things about a general $p:a=b$ by restricting to the special case when $a$ and $b$ are the same and $p$ is ``reflexivity''.
-We refer to this as \emph{path induction} or \emph{inducion on identity}.
-
-The types in UF are stratified in a linearly ordered hierarchy of \emph{universes}, which are types whose elements are themselves types.
-All our universes are assumed to satisfy the univalence axiom, which says that for types $A,B:\type$ in some universe \type, the identity type $A=_\type B$ is equivalent to the type $A\simeq B$ of equivalences between $A$ and $B$.
-
-Throughout the paper we avoid mentioning particular universes explicitly: we write simply ``\type'' to indicate \emph{some} universe.
-This is called \emph{typical ambiguity}: universes are implicitly quantified over.
-In fact, all the constructions of this paper can be carried out using only \emph{one} universe, with one very important exception: the Yoneda embedding raises the universe level by one, since the category of sets in one universe lives in the next higher universe.
-Since our construction of the Rezk completion relies on the Yoneda embedding, this means that it also raises the universe level.
-\marginpar{I wonder whether that means we really ought to make the universes explicit\dots}
-(As mentioned in the introduction, it is also possible to construct the Rezk completion using higher inductive types, in which case it remains in the same universe.)
+We refer to this as \emph{path induction} or \emph{induction on identity}.
 
 A type $A$ is called a \emph{mere proposition} if for all $a,b:A$ we have $a=b$.
 Homotopically, these are the spaces which, if nonempty, are contractible.
-Similarly, $A$ is called a \emph{set} if for all $a,b:A$, the type $a=b$ is a mere proposition.
+With this in mind, we call a type $A$ \emph{contractible} if it is a mere proposition and has an element $a:A$.
+On the other hand, we call $A$ a \emph{set} if for all $a,b:A$, the type $a=b$ is a mere proposition.
 Homotopically, these are the spaces which are equivalent to discrete ones.
-More generally, $A$ is called an \emph{$n$-type} if each $a=b$ is an $(n-1)$-type, with the 0-types being the sets and the $(-1)$-types the mere propositions; these exactly match the traditional notion of \emph{homotopy $n$-type}.
+More generally, $A$ is an \emph{$n$-type} if each $a=b$ is an $(n-1)$-type, with the 0-types being the sets, the $(-1)$-types the mere propositions, and the $(-2)$-types the contractible ones.
+This exactly matches the traditional notion of \emph{homotopy $n$-type}.
+
+A function $f:A\to B$ is called an \emph{equivalence} if for all $b:B$, its ``homotopy fiber'' $\sm{x:A} (f(x)=b)$ is contractible.
+In some literature such functions are called ``weak equivalences'', but there is nothing weak about them.
+In particular, any equivalence is also a \emph{homotopy equivalence} in that there is a function $g:B\to A$ such that $g\circ f = 1_A$ and $f\circ g = 1_B$.
+Conversely, any homotopy equivalence is an equivalence; this is the usual way that we construct equivalences.
+We write $A\simeq B$ for the type $\sm{f:A\to B} \mathsf{isequiv}(f)$ of equivalences from $A$ to $B$.
+
+The types in UF are stratified in a linearly ordered hierarchy of \emph{universes}, which are types whose elements are themselves types.
+For most of the paper we avoid mentioning particular universes explicitly: we write simply ``\type'' to indicate \emph{some} universe.
+This is called \emph{typical ambiguity}: universes are implicitly quantified over.
+However, in \S\S\ref{sec:yoneda}--\ref{sec:rezk} we will be a little more careful.
+All our universes are assumed to satisfy the univalence axiom, which says that for types $A,B:\type$ in some universe \type, the canonical map $(A=_\type B) \to (A\simeq B)$ is an equivalence.
+
+% In fact, all the constructions of this paper can be carried out using only \emph{one} universe, with one very important exception: the Yoneda embedding raises the universe level by one, since the category of sets in one universe lives in the next higher universe.
+% Since our construction of the Rezk completion relies on the Yoneda embedding, this means that it also raises the universe level.
+% \marginpar{I wonder whether that means we really ought to make the universes explicit\dots}
+% (As mentioned in the introduction, it is also possible to construct the Rezk completion using higher inductive types, in which case it remains in the same universe.)
+
+
 We write $\set$ for the type $\sm{A:\type} \mathsf{isset}(A)$ of all sets (in some universe \type).
 Technically, this is the type of pairs $(A,s)$ where $A$ is a type and $s$ inhabits the type ``$A$ is a set'', but since the latter type is a mere proposition, it is usually easy to ignore the distinction.
+Similarly, we write $\prop \defeq \sm{A:\type} \mathsf{isprop}(A)$ for the type of all mere propositions.
 
 One type forming operation we use in UF which is not as well-known in type theory is the \emph{propositional truncation} of a type $A$.
 This is a type $\brck A$ that is a mere proposition, and has the universal property that whenever we want to prove a type $B$ assuming $\brck A$, and $B$ is a mere proposition, then we may assume $A$ instead of $\brck A$.
+In the formalization, we define $\brck A$ with an impredicative encoding as
+\[ \brck A \defeq \prd{P:\prop} (A\to P) \to P. \]
+This depends for its correctness on an impredicativity axiom for mere propositions (every mere proposition is equivalent to one living in the smallest universe), and also lives in a higher universe level than $A$.
+However, $\brck A$ can be constructed as a higher inductive type, avoiding both of these issues.
+
 In informal mathematical English, we use the adverb \emph{merely} to indicate the propositional truncation; thus for instance ``there merely exists an $x:A$ such that $P(x)$'' indicates $\bbrck{\sm{x:A} P(x)}$.
 In contrast to the type-theoretic ``there exists'' which is strongly constructive, ``mere existence'' is more like the usual mathematical sort of ``there exists'' which does not imply that any particular choice of such an object has been specified.
 
 The propositional truncation is actually the case $n=-1$ of a more general $n$-truncation operation, which makes any type $A$ into an $n$-type $\trunc n A$ in a universal way.
 However, we will not have much need of the $n$-truncation for $n\ge 0$.
 
-\input{background.tex}
+%\input{background.tex}
 
 \section{Categories and precategories}
 \label{sec:cats}
@@ -1442,7 +1460,12 @@ Thus, insofar as the latter is inevitable, so is the former.
 
 \input{formalization}
 
-\input{semantics}
+%\input{semantics}
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+
 
 \bibliographystyle{alpha}
 \bibliography{hottcats}
@@ -1452,4 +1475,5 @@ Thus, insofar as the latter is inevitable, so is the former.
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: t
+%%% eval: (reftex-set-cite-format "~\\cite{%l}")
 %%% End:

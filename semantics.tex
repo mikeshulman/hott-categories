@@ -7,7 +7,7 @@ This can greatly simplify some proofs, enabling us to use a familiar language of
 In essence, the general machine of categorical semantics functions like a ``compiler'' which automatically translates the former language into the latter.
 
 For homotopy type theory, the relevant categorical semantics takes place in \emph{higher} categories.
-The general form of this semantics is not fully worked out, but a good amount is known, especially in the 1-truncated situation with which we have been mostly concerned in this paper.
+The general form of this semantics is not fully worked out, but a good amount is known.
 In this section we will describe the higher-categorical semantics of our type-theoretic notions of precategory and category.
 
 \subsection{Groupoids}
@@ -37,12 +37,16 @@ In this model:
 We leave it to the reader to verify that:
 \begin{itemize}
 \item For $f,g:A\to B$, to give a term $(x:A),(y:A)\vdash (f(x)=g(y))$ means to give a natural isomorphism between the corresponding functors.
+  Thus, the type-theoretic and groupoid-theoretic notions of ``equivalence'' coincide.
 \item A groupoid is contractible, in the type-theoretic sense, if and only if it is equivalent to the terminal groupoid, i.e.\ it is nonempty and every two objects are uniquely isomorphic.
 \item A groupoid is a set, in the type-theoretic sense, if and only if it is equivalent to a discrete groupoid, i.e.\ any two objects are isomorphic in at most one way.
   We call such groupoids \emph{essential sets}.
 \end{itemize}
 It is shown in~\cite{hs:gpd-typethy} that the groupoid $\mathsf{Gpd}_\kappa$ of groupoids smaller in cardinality than some inaccessible cardinal $\kappa$ (or more precisely, some small groupoid equivalent to this) supplies a type-theoretic universe in this model.
-This universe is \emph{not} univalent, but its sub-universe $\mathsf{ESet}_\kappa$ of essential sets smaller than $\kappa$ \emph{is} univalent.
+This universe is \emph{not} univalent, since its identity type consists of \emph{isomorphisms} between groupoids rather than \emph{equivalences}.
+However, an 
+
+, but its sub-universe $\mathsf{ESet}_\kappa$ of essential sets smaller than $\kappa$ \emph{is} univalent.
 
 Thus, the theory of this paper can be interpreted in the groupoid model.
 To avoid confusion, in this section we will refer to the type-theoretic notions as \emph{precategories} and \emph{saturated precategories}, reserving the word ``category'' for the ordinary notion of category.
