@@ -232,6 +232,20 @@
 \author{Michael Shulman}
 \date{\today}
 \begin{document}
+
+
+\begin{abstract}
+We develop category theory within the Univalent Foundations of Vladimir
+Voevodsky. We analyze possible different notions of category and, in
+particular, give one for which equality and equivalence of categories
+agree.  Such categories satisfy a version of the Univalence Axiom, saying
+that the type of isomorphisms between any two objects is equivalent to the
+identity type between these objects, what justifies calling them univalent
+categories. Moreover, we show that any category is weakly equivalent to a
+univalent one in a universal way. This construction is a truncated version of 
+Rezk completion for Segal spaces.
+\end{abstract}
+
 \maketitle
 
 \section{Introduction}
@@ -245,8 +259,8 @@ This problem becomes especially important when formalizing category theory in a 
 %\marginpar{Are there other problems specific to formalization?}
 
 Our aim in this paper is to show that this problem can be ameliorated using the new \emph{univalent foundations} of mathematics, a.k.a.\ \emph{homotopy type theory}, proposed by V.~Voevodsky \cite{vv_uf}.
-It builds on the existing system of dependent type theory [reference], a logical system that is feasible for large-scale formalization of mathematics [references] and also for internal categorical logic.
-The distinctive feature of Univalent Foundations is its treatment of equality inspired by homotopy-theoretic semantics [references].
+It builds on the existing system of dependent type theory \cite{martin-lof:bibliopolis, werner:thesis}, a logical system that is feasible for large-scale formalization of mathematics \cite{gonthier:feit-thompson} and also for internal categorical logic.
+The distinctive feature of Univalent Foundations is its treatment of equality inspired by homotopy-theoretic semantics \cite{awodey-warren, arndt-kapulkin, warren:thesis, garner-van-den-berg:top-and-simp-models}.
 Using this interpretation, Voevodsky has extended dependent type theory with an additional axiom, called the \emph{Univalence Axiom}, which was originally suggested by the interpretation of the theory in the category of simplicial sets~\cite{klv:ssetmodel}, and should also be valid in other homotopical interpretations such as categories of higher stacks.
 
 The univalence axiom identifies \emph{identity} of types with \emph{equivalence} of types.
