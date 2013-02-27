@@ -13,9 +13,8 @@ and is available online \cite{rezk_coq}.
 \subsection*{Design principles}
 Our general design principles largely follow the conventions established by Voevodsky in the library \cite{vv_foundations} 
 with a few departures. 
-Both use only three type constructors: $\Pi$, $\Sigma$, $\textsf{Id}$ and do not use 
-almost any of the syntactic sugar of \textsf{Coq} such as the record types. 
-Following Voevodsky, we use implicit arguments and, quite extensively, coercions. 
+Both use only three type constructors, namely $\Pi$, $\Sigma$, $\textsf{Id}$, and avoid most of the syntactic sugar of \textsf{Coq} (such as record types).
+Both do use implicit arguments and, quite extensively, coercions.
 
 We restrict ourselves to these basic type constructors since they have a well-understood
 semantics in various homotopy-theoretic models. Implicit arguments and coercions are 
