@@ -309,6 +309,7 @@ $A \to \widehat{A}$ (the unit of the adjunction).
 With the connection to Rezk's complete Segal spaces in mind, we call the saturation of a precategory its \emph{Rezk completion}.
 However, with higher topos semantics in mind, it could also reasonably be called the \emph{stack completion}: a strict category in the internal type theory of a higher topos corresponds to an internal category in the 1-topos of sheaves, and its Rezk completion is essentially its stack completion.
 Our construction uses a Yoneda embedding as in~\cite{bunge:stacks-morita-internal} rather than a transfinite localization argument as in~\cite{jt:strong-stacks,rezk01css}, but it is also possible to mimic the latter more closely in type theory using ``higher inductive types''~\cite{ls:hits}.
+A slightly expanded version of this paper, which includes this alternative proof, is included in~\cite[Chapter 9]{HoTTbook}.
 
 The Rezk completion also sheds further light on the notion of equivalence of categories.
 For instance, the functor $A \to \widehat{A}$ is always fully faithful and essentially surjective, hence a ``weak equivalence''.
@@ -322,7 +323,7 @@ In particular, the formalization includes the Rezk completion together with its 
 Our \textsf{Coq} files are attached to this arXiv submission.
 
 \begin{rmk}
-  Because saturated categories are the ``correct'' notion of category in UF, when working internally to UF we drop the adjective ``saturated'' and speak merely of \emph{categories}.
+  Because saturated categories are the ``correct'' notion of category in UF, when working internally in UF we drop the adjective ``saturated'' and speak merely of \emph{categories}.
   The adjective is only necessary when comparing such categories to other ``external'' notions of category.
 \end{rmk}
 
@@ -441,7 +442,7 @@ This leads us to the following.
   \item A type $A_0$ of \emph{objects}.  We write $a:A$ for $a:A_0$.
   \item For each $a,b:A$, a set $\hom_A(a,b)$ of \emph{arrows} or \emph{morphisms}.
   \item For each $a:A$, a morphism $1_a:\hom_A(a,a)$.
-  \item For each $a,b,c:A$, a function
+  \item For each $a,b,c:A$, a function of type
     \[  \hom_A(b,c) \to \hom_A(a,b) \to \hom_A(a,c) \]
     denoted infix by $g\mapsto f\mapsto g\circ f$, or sometimes simply by $gf$.
   \item For each $a,b:A$ and $f:\hom_A(a,b)$, we have $\id f {1_b\circ f}$ and $\id f {f\circ 1_a}$.
@@ -553,9 +554,9 @@ and so on.
 
 \begin{eg}\label{ct:gaunt}
   If $A$ is a category, then $A_0$ is a set if and only if for any $a,b:A_0$, the type $a\cong b$ is a mere proposition.
-  This is equivalent to saying that every isomorphism in $A$ is an identity; thus it is rather stronger than the classical notion of ``skeletal'' category.
-  Categories of this sort are sometimes called \textbf{gaunt} (this term was introduced by Barwick and Schommer-Pries~\cite{bsp12infncats}).
-  There is not really any notion of ``skeletality'' for our categories, unless one considers \autoref{ct:category} itself to be such.
+  Classically, a category satisfies this condition if and only if it is equivalent to one in which every isomorphism is an identity morphism.
+  A category of the latter sort is sometimes called \textbf{gaunt} (this term was introduced by Barwick and Schommer-Pries~\cite{bsp12infncats}).
+  % There is not really any notion of ``skeletality'' for our categories, unless one considers \autoref{ct:category} itself to be such.
 \end{eg}
 
 \begin{eg}\label{ct:discrete}
@@ -613,7 +614,7 @@ Note that by induction on identity, a functor also preserves \idtoiso.
 \end{defn}
 
 Since each type $\hom_B(Fa,Gb)$ is a set, its identity type is a mere proposition.
-Thus, the naturality axiom is a mere proposition, so identity of natural transformations is determined by identity of their components.
+Thus, the naturality axiom is a mere proposition, so (invoking function extensionality) identity of natural transformations is determined by identity of their components.
 In particular, for any $F$ and $G$, the type of natural transformations from $F$ to $G$ is again a set.
 
 Similarly, identity of functors is determined by identity of the functions $A_0\to B_0$ and (transported along this) of the corresponding functions on hom-sets.
@@ -812,7 +813,7 @@ We take as our definition of adjunction the purely diagrammatic one in terms of 
   Finally, the triangle identities transport correctly automatically, since hom-sets are sets.
 \end{proof}
 
-In \S\ref{sec:yoneda} we will mention another possible proof of \autoref{ct:adjprop}.
+In \S\ref{sec:yoneda} we will mention another possible way to prove \autoref{ct:adjprop}.
 
 
 \section{Equivalences}
@@ -1142,7 +1143,9 @@ However, the univalence axiom implies that it coincides with isomorphism.
 \end{proof}
 
 Thus, for categories, equality also coincides with equivalence.
-We can interpret this as saying that categories, functors, and natural transformations form, not just a ``pre-2-category'', but a 2-category.
+We can interpret this as follows: define a ``pre-2-category'' to have a type of objects equipped with hom-precategories, composition functors, and so on.
+Then categories, functors, and natural transformations form a pre-2-category whose hom-precategories are categories (this is \autoref{ct:functor-cat}), and \autoref{ct:cat-eq-iso} is a categorified version of the saturation property.
+It is consistent to use the word \emph{2-category} for a pre-2-category satisfying both of these conditions.
 
 \begin{thm}\label{ct:cat-2cat}
   If $A$ and $B$ are categories, then the function
@@ -1463,7 +1466,7 @@ We now construct such a weak equivalence.
 \begin{rmk}
   Note, however, that even if $A$ itself is a ``small category'' with respect to some universe \type (that is, both $A_0$ and all its hom-sets lie in \type), then $\widehat A$ as we have constructed it will lie in the next higher universe.
   One could imagine a ``resizing axiom'' that could deal with this.
-  It is also possible to give a direct construction of $\widehat A$ using higher inductive types, which leaves its universe level unchanged.
+  It is also possible to give a direct construction of $\widehat A$ using higher inductive types~\cite{ls:hits}, which leaves its universe level unchanged; see~\cite[Chapter 9]{HoTTbook}.
 \end{rmk}
 
 We call the construction $A\mapsto \widehat A$ the \textbf{Rezk completion}, although as mentioned in the introduction, there is also an argument for calling it the \textbf{stack completion}.
