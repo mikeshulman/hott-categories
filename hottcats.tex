@@ -11,11 +11,21 @@
 \usepackage{listings}
 \def\lstlanguagefiles{defManSSR.tex}
 \lstset{language=SSR}
-\usepackage[pagebackref,colorlinks,citecolor=darkgreen,linkcolor=darkgreen]{hyperref}
 \usepackage[all,2cell]{xy}
 \UseAllTwocells
-\usepackage{natbib}
+% \usepackage{natbib}
 \usepackage{braket}
+
+\usepackage[style=authoryear,
+ backref=true,
+ maxnames=2,
+ maxbibnames=99                  
+ uniquename=init
+]{biblatex}
+\bibliography{hottcats.bib}
+
+\usepackage[colorlinks,citecolor=darkgreen,linkcolor=darkgreen]{hyperref}
+
 
 %%%% MACROS FOR NOTATION %%%%
 % Use these for any notation where there are multiple options.
@@ -268,10 +278,10 @@ But another problem is that most of category theory is invariant under weaker no
 This problem becomes especially important when formalizing category theory in a computer proof assistant.
 %\marginpar{Are there other problems specific to formalization?}
 
-Our aim in this paper is to show that this problem can be ameliorated using the new \emph{Univalent Foundations} of mathematics, a.k.a.\ \emph{homotopy type theory}, proposed by V.~Voevodsky \cite{vv_uf}.
-It builds on the existing system of dependent type theory \cite{martin-lof:bibliopolis, werner:thesis}, a logical system that is feasible for large-scale formalization of mathematics \cite{gonthier:feit-thompson} and also for internal categorical logic.
-The distinctive feature of Univalent Foundations is its treatment of equality inspired by homotopy-theoretic semantics \cite{awodey-warren, arndt-kapulkin, warren:thesis, garner-van-den-berg:top-and-simp-models}.
-Using this interpretation, Voevodsky has extended dependent type theory with an additional axiom, called the \emph{Univalence Axiom}, which was originally suggested by the model of the theory in the category of simplicial sets~\cite{klv:ssetmodel}, and should also be valid in other homotopical models such as categories of higher stacks.
+Our aim in this paper is to show that this problem can be ameliorated using the new \emph{Univalent Foundations} of mathematics, a.k.a.\ \emph{homotopy type theory}, proposed by \textcite{vv_uf}.
+It builds on the existing system of dependent type theory \parencite{martin-lof:bibliopolis, werner:thesis}, a logical system that is feasible for large-scale formalization of mathematics \parencite{gonthier:feit-thompson} and also for internal categorical logic.
+The distinctive feature of Univalent Foundations is its treatment of equality inspired by homotopy-theoretic semantics \parencite{awodey-warren, arndt-kapulkin, warren:thesis, garner-van-den-berg:top-and-simp-models}.
+Using this interpretation, Voevodsky has extended dependent type theory with an additional axiom, called the \emph{Univalence Axiom}, which was originally suggested by the model of the theory in the category of simplicial sets~\parencite{klv:ssetmodel}, and should also be valid in other homotopical models such as categories of higher stacks.
 
 The univalence axiom identifies \emph{identity} of types with \emph{equivalence} of types.
 In particular, this implies that anything we can say about sets is automatically invariant under isomorphism, because isomorphism is identified with identity.
@@ -306,9 +316,9 @@ A good example of the difference between the three notions of category is provid
 Saturated categories have the additional advantage that they are ``univalent as objects'' as well.
 Specifically, just the way isomorphic objects \emph{in} a saturated category are equal, \emph{equivalent} saturated categories are themselves equal.
 
-When interpreted in Voevodsky's simplicial set model, our precategories are similar to a truncated analogue of the \emph{Segal spaces} of Rezk~\cite[Sec.~14]{rezk01css}, while our saturated categories correspond to his \emph{complete Segal spaces}.
+When interpreted in Voevodsky's simplicial set model, our precategories are similar to a truncated analogue of the \emph{Segal spaces} of \textcite[Sec.~14]{rezk01css}, while our saturated categories correspond to his \emph{complete Segal spaces}.
 Strict categories correspond instead to (a weakened and truncated version of) \emph{Segal categories}.
-It is known that Segal categories and complete Segal spaces are equivalent models for $(\infty,1)$-categories (see e.g.~\cite{bergner:infty-one}), so that in the simplicial set model, strict and saturated categories yield ``equivalent'' category theories---although as mentioned above, the saturated ones still have many advantages.
+It is known that Segal categories and complete Segal spaces are equivalent models for $(\infty,1)$-categories (see e.g.~\textcite{bergner:infty-one}), so that in the simplicial set model, strict and saturated categories yield ``equivalent'' category theories---although as mentioned above, the saturated ones still have many advantages.
 
 However, in the more general categorical semantics of a higher topos, a strict category corresponds to an internal category (in the traditional sense) in the corresponding 1-topos of sheaves, while a saturated category corresponds to a \emph{stack}.
 Internal categories are \emph{not} equivalent to stacks, and it is well-known that stacks are generally a more appropriate sort of ``category'' relative to a topos.
@@ -320,8 +330,8 @@ $A \to \widehat{A}$ (the unit of the adjunction).
 
 With the connection to Rezk's complete Segal spaces in mind, we call the saturation of a precategory its \emph{Rezk completion}.
 However, with higher topos semantics in mind, it could also reasonably be called the \emph{stack completion}: a strict category in the internal type theory of a higher topos corresponds to an internal category in the 1-topos of sheaves, and its Rezk completion is essentially its stack completion.
-Our construction uses a Yoneda embedding as in~\cite{bunge:stacks-morita-internal} rather than a transfinite localization argument as in~\cite{jt:strong-stacks,rezk01css}, but it is also possible to mimic the latter more closely in type theory using ``higher inductive types''~\cite{ls:hits}.
-A slightly expanded version of this paper, which includes this alternative proof, is included in~\cite[Chapter 9]{HoTTbook}.
+Our construction uses a Yoneda embedding as in~\parencite{bunge:stacks-morita-internal} rather than a transfinite localization argument as in~\parencite{jt:strong-stacks,rezk01css}, but it is also possible to mimic the latter more closely in type theory using ``higher inductive types''~\parencite{ls:hits}.
+A slightly expanded version of this paper, which includes this alternative proof, is included in~\parencite[Chapter 9]{HoTTbook}.
 
 The Rezk completion also sheds further light on the notion of equivalence of categories.
 For instance, the functor $A \to \widehat{A}$ is always fully faithful and essentially surjective, hence a ``weak equivalence''.
@@ -330,7 +340,7 @@ It follows that a precategory is a saturated category exactly when it ``sees'' a
 In particular, the notion of saturated category is already inherent in the notion of ``fully faithful and essentially surjective functor''; saturated categories are \emph{precisely} the precategories for which~\ref{item:satnoac} above holds.
 
 Finally, as mentioned above, one of the virtues of Univalent Foundations (and type theory more generally) is the feasibility of formalizing it in a computer proof assistant.
-We have taken advantage of this by verifying large parts of the theory of precategories and saturated categories in the proof assistant \textsf{Coq}, building on Voevodsky's \emph{Foundations} library for UF~\cite{vv_foundations}.
+We have taken advantage of this by verifying large parts of the theory of precategories and saturated categories in the proof assistant \textsf{Coq}, building on Voevodsky's \emph{Foundations} library for UF~\parencite{vv_foundations}.
 In particular, the formalization includes the Rezk completion together with its universal property.
 
 \begin{rmk}
@@ -1575,8 +1585,10 @@ Another is to move on to \emph{higher} category theory: a theory of pre-2-catego
 Ideally, we would like a full theory of $(\infty,1)$-categories, but it has proven difficult to formalize such infinite structures in currently available type theories.
 
 
-\bibliographystyle{alpha}
-\bibliography{hottcats}
+% \bibliographystyle{alpha}
+% \bibliography{hottcats}
+
+\printbibliography
 
 \end{document}
 
