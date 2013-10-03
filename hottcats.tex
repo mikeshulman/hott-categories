@@ -1,6 +1,6 @@
-\documentclass{amsart}
+\documentclass{mscs}
 \usepackage[utf8]{inputenc}
-\usepackage{amssymb,amsmath,amsthm,stmaryrd,mathrsfs}
+\usepackage{amssymb,amsmath,stmaryrd,mathrsfs}
 \usepackage{enumitem,mathtools,xspace,xcolor}
 \definecolor{darkgreen}{rgb}{0,0.45,0}
 \definecolor{dkblue}{rgb}{0,0.1,0.5}
@@ -170,9 +170,9 @@
 \defthm{lem}{Lemma}
 % Since definitions and theorems in type theory are synonymous, should
 % we actually use the same theoremstyle for them?
-\theoremstyle{definition}
+% \theoremstyle{definition}
 \defthm{defn}{Definition}
-\theoremstyle{remark}
+% \theoremstyle{remark}
 \defthm{rmk}{Remark}
 \defthm{eg}{Example}
 \defthm{egs}{Examples}
@@ -226,13 +226,27 @@
 \newcommand{\dgr}[1]{{#1}^{\dagger}}
 \newcommand{\unitaryiso}{\mathrel{\cong^\dagger}}
 
-\title{Univalent categories and the Rezk completion}
-\author{Benedikt Ahrens}
-\author{Krzysztof Kapulkin}
-\author{Michael Shulman}
-\date{\today}
+% \title{Univalent categories and the Rezk completion}
+% \author{Benedikt Ahrens}
+% \author{Krzysztof Kapulkin}
+% \author{Michael Shulman}
+% \date{\today}
 \begin{document}
 
+
+\title%[]
+{Univalent categories and the \\ Rezk completion}
+\author[B.\ Ahrens, K.\ Kapulkin and M.\ Shulman]
+{B\ls E\ls N\ls E\ls D\ls I\ls K\ls T\ns A\ls H\ls R\ls E\ls N\ls S\ls$^1$,\ns
+ K\ls R\ls Z\ls Y\ls S\ls Z\ls T\ls O\ls F\ns K\ls A\ls P\ls U\ls L\ls K\ls I\ls N$^2$\ns and\ns
+  M\ls I\ls C\ls H\ls A\ls E\ls L\ns S\ls H\ls U\ls L\ls M\ls A\ls N$^1$%
+\thanks{Ahrens and Shulman were supported by NSF grant DMS-1128155.
+Kapulkin was supported by NSF Grant DMS-1001191 (P.I. Steve Awodey).
+Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation.}\\
+$^1$ Institute for Advanced Study, Princeton, NJ, USA
+\addressbreak $^2$ University of Pittsburgh, Pittsburgh, PA, USA}
+
+\maketitle
 
 \begin{abstract}
   We develop category theory within Univalent Foundations, which is a foundational system for mathematics based on a homotopical interpretation of dependent type theory.
@@ -242,7 +256,7 @@
   In homotopical and higher-categorical semantics, this construction corresponds to a truncated version of the Rezk completion for Segal spaces, and also to the stack completion of a prestack.
 \end{abstract}
 
-\maketitle
+
 
 \section{Introduction}
 \label{sec:introduction}
@@ -758,7 +772,7 @@ In particular, naturally isomorphic functors between categories (as opposed to p
     &\jdeq \delta_{Ga}\circ H(\gamma_a)\\
     &= K(\gamma_a) \circ \delta_{Fa} \hspace{2cm}\text{(by naturality of $\delta$)}\\
     &\jdeq (K \gamma)_a\circ (\delta F)_a\\
-    &\jdeq ((K \gamma)(\delta F))_a.\qedhere
+    &\jdeq ((K \gamma)(\delta F))_a.%\qedhere
   \end{align*}
 \end{proof}
 
@@ -1342,7 +1356,7 @@ One would have to be similarly careful in classical category theory if one wante
   But now we have
   \[ \gamma_b = G(f) \circ \gamma_{Ha} \circ F(\inv{f})
   = G(f) \circ \delta_{Ha} \circ F(\inv{f})
-  = \delta_b.\qedhere
+  = \delta_b.%\qedhere
   \]
 \end{proof}
 
