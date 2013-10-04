@@ -775,7 +775,7 @@ In particular, naturally isomorphic functors between categories (as opposed to p
   For functors $F,G:A\to B$ and $H,K:B\to C$ and natural transformations $\gamma:F\to G$ and $\delta:H\to K$, we have
   \[\id{(\delta G)(H\gamma)}{(K\gamma)(\delta F)}.\]
 \end{lem}
-\begin{proof}
+\begin{proof*}
   It suffices to check componentwise: at $a:A$ we have
   \begin{align*}
     ((\delta G)(H\gamma))_a
@@ -783,9 +783,9 @@ In particular, naturally isomorphic functors between categories (as opposed to p
     &\jdeq \delta_{Ga}\circ H(\gamma_a)\\
     &= K(\gamma_a) \circ \delta_{Fa} \hspace{2cm}\text{(by naturality of $\delta$)}\\
     &\jdeq (K \gamma)_a\circ (\delta F)_a\\
-    &\jdeq ((K \gamma)(\delta F))_a.%\qedhere
+    &\jdeq ((K \gamma)(\delta F))_a. \tag*{\usebox{\proofbox}}%\qedhere
   \end{align*}
-\end{proof}
+\end{proof*}
 
 Classically, one defines the ``horizontal composite'' of $\gamma:F\to G$ and $\delta:H\to K$ to be the common value of ${(\delta G)(H\gamma)}$ and ${(K\gamma)(\delta F)}$.
 We will refrain from doing this, because while equal, these two transformations are not \emph{definitionally} equal.
@@ -1360,16 +1360,16 @@ One would have to be similarly careful in classical category theory if one wante
 \begin{lem}\label{lem:precomp-faithful}
   If $A,B,C$ are precategories and $H:A\to B$ is an essentially surjective functor, then $(-\circ H):C^B \to C^A$ is faithful.
 \end{lem}
-\begin{proof}
+\begin{proof*}
   Let $F,G:B\to C$, and $\gamma,\delta:F\to G$ be such that $\gamma H = \delta H$; we must show $\gamma=\delta$.
   Thus let $b:B$; we want to show $\gamma_b=\delta_b$.
   This is a mere proposition, so since $H$ is essentially surjective, we may assume given an $a:A$ and an isomorphism $f:Ha\cong b$.
   But now we have
   \[ \gamma_b = G(f) \circ \gamma_{Ha} \circ F(\inv{f})
   = G(f) \circ \delta_{Ha} \circ F(\inv{f})
-  = \delta_b.%\qedhere
+  = \delta_b. \tag*{\usebox{\proofbox}}%\qedhere
   \]
-\end{proof}
+\end{proof*}
 
 \begin{lem}\label{lem:precomp-full}
   If $A,B,C$ are precategories and $H:A\to B$ is essentially surjective and full, then $(-\circ H):C^B \to C^A$ is fully faithful.
