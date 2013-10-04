@@ -358,7 +358,7 @@ We also show that equivalent categories are equal.
 In \S\ref{sec:rezk} we construct the Rezk completion which, as described above, universally saturates any precategory.
 
 Finally, \S\ref{sec:formalization} describes the content of our formalization, the organization of the source files, and the differences between informal presentation and its formal analog.
-The actual \textsf{Coq} code is available as a supplement to this paper \cite{rezk_coq}.
+The actual \textsf{Coq} code is available as a supplement to this paper \parencite{rezk_coq}.
 
 % Finally, in \S\ref{sec:semantics} we briefly discuss the categorical semantics\dots [something about equipments, CSS, stacks]\dots
 
@@ -377,7 +377,7 @@ The second-named author dedicates this work to his mother.
 \label{sec:background}
 
 Most of this paper is written in an informal style, with the intent of describing mathematics that could be formalized in Univalent Foundations, analogously to the way that traditional mathematics is discussed informally but is generally accepted to be formalizable in set theory.
-We do not have space to give an introduction to UF here; instead we refer the reader to~\cite{pelayo-warren:univalent-foundations-paper}.
+We do not have space to give an introduction to UF here; instead we refer the reader to~\parencite{pelayo-warren:univalent-foundations-paper}.
 However, a brief reminder of the essential concepts may be helpful.
 
 The basic objects are \emph{types}, which have \emph{elements}, with the basic judgment of elementhood denoted $a:A$.
@@ -434,7 +434,7 @@ This is a type $\brck A$ that is a mere proposition, and has the universal prope
 In the formalization, we define $\brck A$ with an impredicative encoding as
 \[ \brck A \defeq \prd{P:\prop} (A\to P) \to P. \]
 This depends for its correctness on an impredicativity axiom for mere propositions (every mere proposition is equivalent to one living in the smallest universe), and also lives in a higher universe level than $A$.
-However, $\brck A$ can be constructed as a higher inductive type~\cite{ls:hits}, avoiding both of these issues.
+However, $\brck A$ can be constructed as a higher inductive type~\parencite{ls:hits}, avoiding both of these issues.
 
 In informal mathematical English, we use the adverb \emph{merely} to indicate the propositional truncation; thus for instance ``there merely exists an $x:A$ such that $P(x)$'' indicates $\bbrck{\sm{x:A} P(x)}$.
 In contrast to the type-theoretic ``there exists'' which is strongly constructive, ``mere existence'' is more like the usual mathematical sort of ``there exists'' which does not imply that any particular choice of such an object has been specified.
@@ -528,7 +528,7 @@ In particular, in a category, if $a\cong b$, then $a=b$.
 
 \begin{eg}\label{ct:eg:set}
   The univalence axiom implies immediately that \uset is a category.
-  One can also show, using univalence, that any precategory of set-level structures such as groups, rings, topological spaces, etc.\ is a category; see for instance~\cite{dc:isoeq}.
+  One can also show, using univalence, that any precategory of set-level structures such as groups, rings, topological spaces, etc.\ is a category; see for instance~\parencite{dc:isoeq}.
 \end{eg}
 
 We also note the following.
@@ -579,7 +579,7 @@ and so on.
 \begin{eg}\label{ct:gaunt}
   If $A$ is a category, then $A_0$ is a set if and only if for any $a,b:A_0$, the type $a\cong b$ is a mere proposition.
   Classically, a category satisfies this condition if and only if it is equivalent to one in which every isomorphism is an identity morphism.
-  A category of the latter sort is sometimes called \textbf{gaunt} (this term was introduced by Barwick and Schommer-Pries~\cite{bsp12infncats}).
+  A category of the latter sort is sometimes called \textbf{gaunt} (this term was introduced by \textcite{bsp12infncats}).
   % There is not really any notion of ``skeletality'' for our categories, unless one considers \autoref{ct:category} itself to be such.
 \end{eg}
 
@@ -1529,7 +1529,7 @@ We now construct such a weak equivalence.
 \begin{rmk}
   Note, however, that even if $A$ itself is a ``small category'' with respect to some universe \type (that is, both $A_0$ and all its hom-sets lie in \type), then $\widehat A$ as we have constructed it will lie in the next higher universe.
   One could imagine a ``resizing axiom'' that could deal with this.
-  It is also possible to give a direct construction of $\widehat A$ using higher inductive types~\cite{ls:hits}, which leaves its universe level unchanged; see~\cite[Chapter 9]{HoTTbook}.
+  It is also possible to give a direct construction of $\widehat A$ using higher inductive types~\parencite{ls:hits}, which leaves its universe level unchanged; see~\parencite[Chapter 9]{HoTTbook}.
 \end{rmk}
 
 We call the construction $A\mapsto \widehat A$ the \textbf{Rezk completion}, although as mentioned in the introduction, there is also an argument for calling it the \textbf{stack completion}.
