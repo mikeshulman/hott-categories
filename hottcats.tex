@@ -20,7 +20,6 @@
 \usepackage{braket}
 
 %%%% MACROS FOR NOTATION %%%%
-% Use these for any notation where there are multiple options.
 
 %%% Definitional equality (used infix) %%%
 \newcommand{\jdeq}{\equiv}      % An equality judgment
@@ -254,7 +253,6 @@ This is true both at an informal level, and when trying to be completely formal 
 One problem is that naive category theory tends to run afoul of Russellian paradoxes and has to be reinterpreted using universe levels; we will not have much to say about this.
 But another problem is that most of category theory is invariant under weaker notions of ``sameness'' than equality, such as isomorphism in a category or equivalence of categories, in a way which traditional foundations (such as set theory) fail to capture.
 This problem becomes especially important when formalizing category theory in a computer proof assistant.
-%\marginpar{Are there other problems specific to formalization?}
 
 Our aim in this paper is to show that this problem can be ameliorated using the new \emph{Univalent Foundations} of mathematics, a.k.a.\ \emph{homotopy type theory}, proposed by V.~Voevodsky \cite{vv_uf}.
 It builds on the existing system of dependent type theory \cite{martin-lof:bibliopolis, werner:thesis}, a logical system that is feasible for large-scale formalization of mathematics \cite{gonthier:feit-thompson} and also for internal categorical logic.
@@ -341,7 +339,6 @@ The actual \textsf{Coq} code is available as a supplement to this paper \cite{re
 
 
 
-
 \subsection*{Acknowledgements}
 First and foremost, we would like to thank Vladimir Voevodsky for initiating the project of Univalent Foundations and for much assistance.
 We are also very grateful to the organizers of the special year at the Institute for Advanced Study in 2012--2013, where much of this work was done.
@@ -398,9 +395,6 @@ However, in \S\S\ref{sec:yoneda}--\ref{sec:rezk} we will be a little more carefu
 All our universes are assumed to satisfy the univalence axiom, which says that for types $A,B:\type$ in some universe \type, the canonical map $(A=_\type B) \to (A\simeq B)$ is an equivalence.
 
 
-
-
-
 We write $\set$ for the type $\sm{A:\type} \mathsf{isset}(A)$ of all sets (in some universe \type).
 Technically, this is the type of pairs $(A,s)$ where $A$ is a type and $s$ inhabits the type ``$A$ is a set'', but since the latter type is a mere proposition, it is usually easy to ignore the distinction.
 Similarly, we write $\prop \defeq \sm{A:\type} \mathsf{isprop}(A)$ for the type of all mere propositions.
@@ -424,7 +418,6 @@ Also if $A$ and $B$ are sets, we say that $f:A\to B$ is \emph{surjective} if for
 If in this definition we leave out the adverb ``merely'', we call the resulting notion being \emph{split surjective}; in the absence of the axiom of choice the two are different.
 (Type theorists are accustomed to use the phrase ``the axiom of choice'' for a provable statement which is really about commutation of dependent sums and products; in UF one can state an axiom of choice that behaves more like the familiar one in set theory.
 However, we will not need any such axiom.)
-
 
 
 
@@ -577,7 +570,6 @@ and so on.
   There is a precategory whose type of objects is \type and with $\hom(X,Y) \defeq \pizero{X\to Y}$.
   We call this the \emph{homotopy precategory of types}.
 \end{eg}
-
 
 
 \begin{rmk}\label{defn:strict}
@@ -761,7 +753,6 @@ We have a similar coherence result for units.
     & G \circ F.}
   \]
 \end{lem}
-
 
 
 
@@ -1503,7 +1494,6 @@ Thus, insofar as the latter is inevitable, so is the former.
 
 
 \input{formalization}
-
 
 
 \section{Conclusions and further work}
