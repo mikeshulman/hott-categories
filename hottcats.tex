@@ -306,7 +306,7 @@ We consider this to be the ``correct'' definition of \emph{category} in Univalen
 For emphasis, we may call such a category a \emph{saturated} or \emph{univalent} category.
 
 Most categories encountered in practice are saturated, at least in the presence of the univalence axiom.
-Those which are not saturated, such as the homotopy category of $n$-types for $n\ge 1$, tend to behave much worse than the saturated ones.
+Those which are not saturated, such as the category of $n$-types and homotopy classes of functions for $n\ge 1$, tend to behave much worse than the saturated ones.
 Thus, in the non-saturated and non-strict case, we use instead the slightly derogatory word \emph{precategory}.
 
 A good example of the difference between the three notions of category is provided by the statement ``every fully faithful and essentially surjective functor is an equivalence of categories'', which in classical set-based category theory is equivalent to the axiom of choice.
@@ -323,7 +323,7 @@ Strict categories correspond instead to (a weakened and truncated version of) \e
 It is known that Segal categories and complete Segal spaces are equivalent models for $(\infty,1)$-categories (see e.g.~\textcite{bergner:infty-one}), so that in the simplicial set model, strict and saturated categories yield ``equivalent'' category theories---although as mentioned above, the saturated ones still have many advantages.
 
 However, in the more general categorical semantics of a higher topos, a strict category corresponds to an internal category (in the traditional sense) in the corresponding 1-topos of sheaves, while a saturated category corresponds to a \emph{stack}.
-Internal categories are \emph{not} equivalent to stacks, and it is well-known that stacks are generally a more appropriate sort of ``category'' relative to a topos.
+Internal categories are \emph{not} equivalent to stacks (in fact, stacks form a localization of internal categories~\cite{jt:strong-stacks}), and it is well-known that stacks are generally a more appropriate sort of ``category'' relative to a topos.
 
 Besides developing the basic theory of precategories and saturated categories, one of the main goals of this paper is to describe a universal way of ``saturating'' a precategory.
 More precisely, we show that the obvious inclusion of saturated precategories into categories has a left adjoint, in the appropriate bicategorical sense.
@@ -423,7 +423,7 @@ Technically, this is the type of pairs $(A,s)$ where $A$ is a type and $s$ inhab
 Similarly, we write $\prop \defeq \sm{A:\type} \mathsf{isprop}(A)$ for the type of all mere propositions.
 
 One type forming operation we use in UF which is not as well-known in type theory is the \emph{propositional truncation} of a type $A$.
-This is a type $\brck A$ that is a mere proposition, and has the universal property that whenever we want to prove a type $B$ assuming $\brck A$, and $B$ is a mere proposition, then we may assume $A$ instead of $\brck A$.
+This is a type $\brck A$ that is a mere proposition, and has the universal property that whenever we want to prove a type $B$ (i.e.\ construct an element of $B$) assuming $\brck A$, and $B$ is a mere proposition, then we may assume $A$ instead of $\brck A$.
 In the formalization, we define $\brck A$ with an impredicative encoding as
 \[ \brck A \defeq \prd{P:\prop} (A\to P) \to P. \]
 This depends for its correctness on an impredicativity axiom for mere propositions (every mere proposition is equivalent to one living in the smallest universe), and also lives in a higher universe level than $A$.
@@ -534,6 +534,9 @@ We also note the following.
 
 We write $\isotoid$ for the inverse $(a\cong b) \to (\id a b)$ of the map $\idtoiso$ from \autoref{ct:idtoiso}.
 The following relationship between the two is important.
+
+Recall the notion of \emph{transport} along a path, denoted $\trans p z$.
+Additionally, if $p:\id a a'$ and $q:\id b b'$, then we write $(p,q)$ for the induced path of type $\id{(a,b)}{(a',b')}$.
 
 \begin{lem}\label{ct:idtoiso-trans}
   For $p:\id a a'$ and $q:\id b b'$ and $f:\hom_A(a,b)$, we have
@@ -1405,7 +1408,7 @@ One would have to be similarly careful in classical category theory if one wante
   Hence, $\delta \circ H = \gamma$.
 \end{proof}
 
-The rest of the theorem follows almost exactly the same lines, with the saturation of $C$ inserted in one crucial step, which we have bolded below for emphasis.
+The proof of the theorem itself follows almost exactly the same lines, with the saturation of $C$ inserted in one crucial step, which we have bolded below for emphasis.
 This is the point at which we are trying to define a function into \emph{objects} without using choice, and so we must be careful about what it means for an object to be ``uniquely specified''.
 In classical category theory, all one can say is that this object is specified up to unique isomorphism, but in set-theoretic foundations this is not a sufficient amount of uniqueness to give us a function without invoking AC.
 In Univalent Foundations, however, if $C$ is a category, then isomorphism is equality, and we have the appropriate sort of uniqueness (namely, living in a contractible space).
