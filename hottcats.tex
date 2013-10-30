@@ -261,7 +261,7 @@ Using this interpretation, Voevodsky has extended dependent type theory with an 
 
 The univalence axiom identifies \emph{identity} of types with \emph{equivalence} of types.
 In particular, this implies that anything we can say about sets is automatically invariant under isomorphism, because isomorphism is identified with identity.
-In other words, under the univalence axiom, the category of sets \emph{automatically} behaves ``categorically'', in that its objects cannot be distinguished more finely than up to (unique) isomorphism.
+In other words, under the univalence axiom, the category of sets \emph{automatically} behaves ``categorically'', in that isomorphic objects cannot be distinguished.
 Our goal in this paper is to extend this behavior to other categories, which requires a more careful analysis of the definition of ``category''.
 
 If we ignore size issues, then in set-based mathematics, a category consists of a \emph{set} of objects and, for each pair $x,y$ of objects, a \emph{set} $\hom(x,y)$ of morphisms.
@@ -313,7 +313,7 @@ The Rezk completion also sheds further light on the notion of equivalence of cat
 For instance, the functor $A \to \widehat{A}$ is always fully faithful and essentially surjective, hence a ``weak equivalence''.
 It follows that a precategory is a saturated category exactly when it ``sees'' all fully faithful and essentially surjective functors as equivalences.
 (The analogous facts for complete Segal spaces and stacks are well-known.)
-In particular, the notion of saturated category is already inherent in the notion of ``fully faithful and essentially surjective functor''; saturated categories are \emph{precisely} the precategories for which~\ref{item:satnoac} above holds.
+In particular, the notion of saturated category is already inherent in the notion of ``fully faithful and essentially surjective functor''.
 
 Finally, as mentioned above, one of the virtues of Univalent Foundations (and type theory more generally) is the feasibility of formalizing it in a computer proof assistant.
 We have taken advantage of this by verifying large parts of the theory of precategories and saturated categories in the proof assistant \textsf{Coq}, building on Voevodsky's \emph{Foundations} library for UF~\cite{vv_foundations}.
