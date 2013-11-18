@@ -282,7 +282,7 @@ This problem becomes especially important when formalizing category theory in a 
 
 Our aim in this paper is to show that this problem can be ameliorated using the new \emph{Univalent Foundations} of mathematics, a.k.a.\ \emph{homotopy type theory}, proposed by \textcite{vv_uf}.
 It builds on the existing system of dependent type theory \parencite{martin-lof:bibliopolis, werner:thesis}, a logical system that is feasible for large-scale formalization of mathematics \parencite{gonthier:feit-thompson} and also for internal categorical logic.
-The distinctive feature of Univalent Foundations is its treatment of equality inspired by homotopy-theoretic semantics \parencite{awodey-warren, arndt-kapulkin, warren:thesis, garner-van-den-berg:top-and-simp-models}.
+The distinctive feature of Univalent Foundations (UF) is its treatment of equality inspired by homotopy-theoretic semantics \parencite{awodey-warren, arndt-kapulkin, warren:thesis, garner-van-den-berg:top-and-simp-models}.
 Using this interpretation, Voevodsky has extended dependent type theory with an additional axiom, called the \emph{Univalence Axiom}, which was originally suggested by the model of the theory in the category of simplicial sets~\parencite{klv:ssetmodel}, and should also be valid in other homotopical models such as categories of higher stacks.
 
 The univalence axiom identifies \emph{identity} of types with \emph{equivalence} of types.
@@ -324,7 +324,7 @@ Strict categories correspond instead to (a weakened and truncated version of) \e
 It is known that Segal categories and complete Segal spaces are equivalent models for $(\infty,1)$-categories (see e.g.~\textcite{bergner:infty-one}), so that in the simplicial set model, strict and saturated categories yield ``equivalent'' category theories---although as mentioned above, the saturated ones still have many advantages.
 
 However, in the more general categorical semantics of a higher topos, a strict category corresponds to an internal category (in the traditional sense) in the corresponding 1-topos of sheaves, while a saturated category corresponds to a \emph{stack}.
-Internal categories are \emph{not} equivalent to stacks (in fact, stacks form a localization of internal categories~\cite{jt:strong-stacks}), and it is well-known that stacks are generally a more appropriate sort of ``category'' relative to a topos.
+Internal categories are \emph{not} equivalent to stacks (in fact, stacks form a localization of internal categories \parencite{jt:strong-stacks}), and it is well-known that stacks are generally a more appropriate sort of ``category'' relative to a topos.
 
 Besides developing the basic theory of precategories and saturated categories, one of the main goals of this paper is to describe a universal way of ``saturating'' a precategory.
 More precisely, we show that the obvious inclusion of saturated precategories into categories has a left adjoint, in the appropriate bicategorical sense.

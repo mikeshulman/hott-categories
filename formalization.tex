@@ -5,13 +5,13 @@
 
 Large chunks of the material presented above have been formalized in the proof assistant \textsf{Coq}.
 The version of \textsf{Coq} used is \textsf{Coq} 8.3pl5, patched according to the instructions given by
-V.\ Voevodsky\footnote{\url{https://github.com/vladimirias/Foundations/tree/master/Coq_patches}}.
-Our formalization is based on Voevodsky's \emph{Foundations} library~\cite{vv_foundations},
-and is available online \cite{rezk_coq}.
+\citeauthor{vv_foundations}\footnote{\url{https://github.com/vladimirias/Foundations/tree/master/Coq_patches}}.
+Our formalization is based on \citeauthor{vv_foundations}'s \emph{Foundations} library \parencite{vv_foundations},
+and is available online \parencite{rezk_coq}.
 
 
 \subsection*{Design principles}
-Our general design principles largely follow the conventions established by Voevodsky in the library \cite{vv_foundations} 
+Our general design principles largely follow the conventions established by \citeauthor{vv_foundations} in the library \cite{vv_foundations} 
 with a few departures. 
 Both use only three type constructors, namely $\Pi$, $\Sigma$, $\textsf{Id}$, and avoid most of the syntactic sugar of \textsf{Coq} (such as record types).
 Both do use implicit arguments and, quite extensively, coercions.
@@ -34,14 +34,14 @@ Since informal type theory, used in the previous sections, is supposed to match 
 the statements of the formalization are very similar to the corresponding statements of the informal type theory. 
 For example, our formal statement correponding to \autoref{def:whisker} looks as follows:
 \begin{lstlisting}
-Lemma is_nat_trans_pre_whisker (A B C: precategory) (F: functor A B)
-   (G H: functor B C) (gamma: nat_trans G H) :
-  is_nat_trans (G o F) (H o F) (fun a: ob A => gamma (F a)).
+Lemma is_nat_trans_pre_whisker (A B C : precategory) (F : functor A B)
+   (G H : functor B C) (gamma : nat_trans G H) :
+  is_nat_trans (G o F) (H o F) (fun a : A => gamma (F a)).
 \end{lstlisting}
 
 
 The major differences occur when we split a large definition in parts as, for example, for the definition of a precategory. 
-We first, define:
+We first define:
 
 
 \begin{lstlisting}
@@ -49,17 +49,17 @@ Definition precategory_ob_mor := total2 (
   fun ob : UU => ob -> ob -> hSet).
 \end{lstlisting}
 %
-Given an element \lstinline!C! of the above type, we write \lstinline!ob C!
-for its first component and \lstinline!a --> b! for the value of the second 
-component on \lstinline!a b : ob C!.
+Given an element \lstinline!C! of the above type, we write \lstinline!a : C!
+for an inhabitant \lstinline!a! of its first component (using the \emph{coercion} mechanism of \textsf{Coq}) and \lstinline!a --> b! for the value of the second 
+component on \lstinline!a b : C!.
 
 We complete the data of a precategory by:
 
 \begin{lstlisting}
 Definition precategory_data := total2 (
    fun C : precategory_ob_mor =>
-     dirprod (forall c : ob C, c --> c)
-             (forall a b c : ob C, a --> b -> b --> c -> a --> c)).
+     dirprod (forall c : C, c --> c)
+             (forall a b c : C, a --> b -> b --> c -> a --> c)).
 \end{lstlisting}
 In the following we write \lstinline!identity c! for the identity morphism
 on an object \lstinline!c! and \lstinline!f ;; g! for the composite of 
@@ -68,11 +68,11 @@ morphisms \lstinline!f : a --> b! and \lstinline!g : b --> c!.
 We define a predicate expressing that this data constitutes a precategory:
 \begin{lstlisting}
 Definition is_precategory (C : precategory_data) :=
-   dirprod (dirprod (forall (a b : ob C) (f : a --> b),
+   dirprod (dirprod (forall (a b : C) (f : a --> b),
                          identity a ;; f == f)
-                     (forall (a b : ob C) (f : a --> b),
+                     (forall (a b : C) (f : a --> b),
                          f ;; identity b == f))
-            (forall (a b c d : ob C)
+            (forall (a b c d : C)
                     (f : a --> b)(g : b --> c) (h : c --> d),
                      f ;; (g ;; h) == (f ;; g) ;; h).
 \end{lstlisting}
@@ -140,8 +140,8 @@ desired convertibility: for any $a : A$, the term $\big(F(GF)\big)(a)$ is conver
 \subsection*{Statistics}
 
 Our library comprises ten files with ca.\ 180 definitions and 170 lemmas altogether.
-The \texttt{coqwc} tool counts 1200 lines of specification --- definitions and statements of lemmas and theorems ---
-and 2700 lines of proof script overall.
+The \texttt{coqwc} tool counts 1200 lines of specification---definitions and statements of lemmas and theorems---and 
+2700 lines of proof script overall.
 
 
 
