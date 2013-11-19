@@ -276,7 +276,7 @@ Following Toby Bartels, we call this notion a \emph{strict category}.
 
 However, a (usually) better option is to require a generalized version of the univalence axiom, identifying the \emph{identity type} $(x=_{\mathsf{Obj}} y)$ between two objects with the type $\mathsf{iso}(x,y)$ of \emph{isomorphisms} from $x$ to $y$.
 (In particular, this implies that each type $(x=_{\mathsf{Obj}} y)$ is a set, and that therefore the type of objects is a \emph{1-type}, containing no higher homotopy above dimension 1.)
-This seems to have been first suggested by \textcite{hs:gpd-typethy}, who also introduced the univalence axiom under the name ``universe extensionality''.
+This seems to have been first suggested by Hofmann and Streicher~\cite{hs:gpd-typethy}, who also introduced the univalence axiom under the name ``universe extensionality''.
 We consider it to be the ``correct'' definition of \emph{category} in Univalent Foundations, since it automatically implies that anything we say about objects of a category is invariant under isomorphism.
 For emphasis, we may call such a category a \emph{saturated} or \emph{univalent} category.
 
@@ -290,7 +290,7 @@ A good example of the difference between the three notions of category is provid
 \item For precategories, there is no axiom of choice which can make it true.
 \item For saturated categories, it is provable \emph{without} any axiom of choice.\label{item:satnoac}
 \end{enumerate}
-Saturated categories have the additional advantage that (as conjectured by \textcite{hs:gpd-typethy}) they are ``univalent as objects'' as well.
+Saturated categories have the additional advantage that (as conjectured by Hofmann and Streicher~\cite{hs:gpd-typethy}) they are ``univalent as objects'' as well.
 Specifically, just the way isomorphic objects \emph{in} a saturated category are equal, \emph{equivalent} saturated categories are themselves equal.
 
 When interpreted in Voevodsky's simplicial set model, our precategories are similar to a truncated analogue of the \emph{Segal spaces} of Rezk~\cite[Sec.~14]{rezk01css}, while our saturated categories correspond to his \emph{complete Segal spaces}.
@@ -644,7 +644,7 @@ We define a natural transformation $\delta:G\to F$ with components $\delta_a$; f
   Now since composition and identity of natural transformations is determined on their components, we have $\id{\gamma\delta}{1_G}$ and $\id{\delta\gamma}{1_F}$.
 \end{proof}
 
-The following result, due originally to \textcite{hs:gpd-typethy}, is fundamental.
+The following result, due originally to Hofmann and Streicher~\cite{hs:gpd-typethy}, is fundamental.
 
 \begin{thm}\label{ct:functor-cat}
   If $A$ is a precategory and $B$ is a category, then $B^A$ is a category.
@@ -1142,7 +1142,7 @@ We can interpret this as follows: define a ``pre-2-category'' to have a type of 
 Then categories, functors, and natural transformations form a pre-2-category whose hom-precategories are categories (this is \autoref{ct:functor-cat}), and \autoref{ct:cat-eq-iso} is a categorified version of the saturation property.
 It is consistent to use the word \emph{2-category} for a pre-2-category satisfying both of these conditions.
 
-The following corollary was conjectured by \textcite{hs:gpd-typethy}.
+The following corollary was conjectured by Hofmann and Streicher\cite{hs:gpd-typethy}.
 
 \begin{thm}\label{ct:cat-2cat}
   If $A$ and $B$ are categories, then the function
