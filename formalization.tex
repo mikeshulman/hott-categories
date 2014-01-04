@@ -1,17 +1,17 @@
 
 \section{The Formalization}
 \label{sec:formalization}
-% \newcommand{\coq}{\textsf{Coq}}   % this doesn't work properly
+
 
 Large chunks of the material presented above have been formalized in the proof assistant \textsf{Coq}.
 The version of \textsf{Coq} used is \textsf{Coq} 8.3pl5, patched according to the instructions given by
-\citeauthor{vv_foundations}\footnote{\url{https://github.com/vladimirias/Foundations/tree/master/Coq_patches}}.
+\textcite{vv_foundations}.
 Our formalization is based on \citeauthor{vv_foundations}'s \emph{Foundations} library \parencite{vv_foundations},
 and is available online \parencite{rezk_coq}.
 
 
 \subsection*{Design principles}
-Our general design principles largely follow the conventions established by \citeauthor{vv_foundations} in the library \cite{vv_foundations} 
+Our general design principles largely follow the conventions established by \textcite{vv_foundations} 
 with a few departures. 
 Both use only three type constructors, namely $\Pi$, $\Sigma$, $\textsf{Id}$, and avoid most of the syntactic sugar of \textsf{Coq} (such as record types).
 Both do use implicit arguments and, quite extensively, coercions.
