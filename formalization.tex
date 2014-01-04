@@ -5,14 +5,14 @@
 
 Large chunks of the material presented above have been formalized in the proof assistant \textsf{Coq}.
 The version of \textsf{Coq} used is \textsf{Coq} 8.3pl5, patched according to the instructions given by
-V.\ Voevodsky\footnote{\url{https://github.com/vladimirias/Foundations/tree/master/Coq_patches}}.
+Voevodsky \cite{vv_foundations}.
 Our formalization is based on Voevodsky's \emph{Foundations} library~\cite{vv_foundations},
 and is available online \cite{rezk_coq}. 
-The files are also attached to this arXiv submission.
+It is also available as an addendum to this arXiv submission.
 
 
 \subsection*{Design principles}
-Our general design principles largely follow the conventions established by Voevodsky in the library \cite{vv_foundations} 
+Our general design principles largely follow the conventions established by Voevodsky \cite{vv_foundations} 
 with a few departures. 
 Both use only three type constructors, namely $\Pi$, $\Sigma$, $\textsf{Id}$, and avoid most of the syntactic sugar of \textsf{Coq} (such as record types).
 Both do use implicit arguments and, quite extensively, coercions.
